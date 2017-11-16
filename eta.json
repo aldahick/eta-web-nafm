@@ -13,7 +13,11 @@
     "subpathHandlers": []
   },
   "name": "hicks-web-nafm",
-  "dependencies": [],
+  "dependencies": [
+    "crossroads-education/eta-web-shared",
+    "crossroads-education/eta-db-partial",
+    "crossroads-education/eta-auth-local"
+  ],
   "indexes": [],
   "hooks": {}
 }
