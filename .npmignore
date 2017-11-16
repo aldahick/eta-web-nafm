@@ -1,9 +1,0 @@
-*.js
-*.js.map
-/eta.ts
-/db.ts
-/node_modules
-/npm-debug.log
-/static/js/node_modules
-/static/js/typings
-/static/js/db.ts

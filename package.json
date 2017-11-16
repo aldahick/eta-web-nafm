@@ -1,10 +1,14 @@
 {
   "name": "hicks-web-nafm",
   "version": "0.0.1",
-  "description": "",
-  "homepage": "",
-  "repository": "",
-  "contributors": [],
+  "description": "Not Another Fucking MUD",
+  "homepage": "https://github.com/aldahick/eta-web-nafm",
+  "repository": "git@github.com:aldahick/eta-web-nafm.git",
+  "contributors": [
+    "Alex Hicks <alex@crossroadseducation.org> (https://alexhicks.net)",
+    "Brian Huntley <brian@crossroadseducation.org>",
+    "Matt Neal <mneal@crossroadseducation.org>"
+  ],
   "engines": {
     "node": ">=8.4.0"
   }
