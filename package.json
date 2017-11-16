@@ -1,0 +1,11 @@
+{
+  "name": "hicks-web-nafm",
+  "version": "0.0.1",
+  "description": "",
+  "homepage": "",
+  "repository": "",
+  "contributors": [],
+  "engines": {
+    "node": ">=8.4.0"
+  }
+}

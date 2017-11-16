@@ -1,0 +1,17 @@
+{
+  "css": {},
+  "redirects": {},
+  "dirs": {
+    "controllers": [],
+    "models": [],
+    "staticFiles": [],
+    "views": [],
+    "lifecycleHandlers": [],
+    "requestTransformers": [],
+    "subpathHandlers": []
+  },
+  "name": "hicks-web-nafm",
+  "dependencies": [],
+  "indexes": [],
+  "hooks": {}
+}
