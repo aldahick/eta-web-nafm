@@ -4,7 +4,9 @@
   "dirs": {
     "controllers": [],
     "models": [],
-    "staticFiles": [],
+    "staticFiles": [
+      "static"
+    ],
     "views": [],
     "lifecycleHandlers": [],
     "requestTransformers": [],
