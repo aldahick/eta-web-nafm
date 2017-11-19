@@ -1,14 +1,10 @@
 {
-  "name": "hicks-web-nafm",
+  "name": "hicks-web-mail",
   "version": "0.0.1",
-  "description": "Not Another Fucking MUD",
-  "homepage": "https://github.com/aldahick/eta-web-nafm",
-  "repository": "git@github.com:aldahick/eta-web-nafm.git",
-  "contributors": [
-    "Alex Hicks <alex@crossroadseducation.org> (https://alexhicks.net)",
-    "Brian Huntley <brian@crossroadseducation.org>",
-    "Matt Neal <mneal@crossroadseducation.org>"
-  ],
+  "description": "Mail management for my server",
+  "homepage": "https://github.com/aldahick/eta-web-mail",
+  "repository": "git@github.com:aldahick/eta-web-mail.git",
+  "author": "Alex Hicks <alex@crossroadseducation.org> (https://alexhicks.net)",
   "engines": {
     "node": ">=8.4.0"
   }
