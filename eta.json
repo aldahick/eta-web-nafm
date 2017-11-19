@@ -12,7 +12,7 @@
     "requestTransformers": [],
     "subpathHandlers": []
   },
-  "name": "hicks-web-mail",
+  "name": "hicks-web-nafm",
   "dependencies": [
     "crossroads-education/eta-web-shared",
     "crossroads-education/eta-db-partial",
