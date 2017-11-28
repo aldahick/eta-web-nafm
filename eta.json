@@ -7,7 +7,9 @@
     "staticFiles": [
       "static"
     ],
-    "views": [],
+    "views": [
+      "views"
+    ],
     "lifecycleHandlers": [],
     "requestTransformers": [],
     "subpathHandlers": []
@@ -18,6 +20,17 @@
     "crossroads-education/eta-db-partial",
     "crossroads-education/eta-auth-local"
   ],
-  "indexes": [],
+  "indexes": [
+    {
+      "filename": "lib/engine/index.ts",
+      "type": "index",
+      "dirs": ["lib/engine"]
+    },
+    {
+      "filename": "static/js/nafm/engine.ts",
+      "type": "export",
+      "dirs": ["lib/engine"]
+    }
+  ],
   "hooks": {}
 }
