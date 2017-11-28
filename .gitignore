@@ -7,3 +7,4 @@
 /static/js/node_modules
 /static/js/typings
 /static/js/db.ts
+/static/js/nafm/engine.ts
