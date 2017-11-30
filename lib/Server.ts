@@ -1,11 +1,29 @@
+import * as eta from "../eta";
 import * as engine from "./engine";
 import * as generateMaze from "generate-maze";
-import * as _ from "lodash";
 
-export default class Server {
-    public constructor() {
-        const level = new engine.Level();
-        const maze = generateMaze(level.size.x / 2 - 1, level.size.y / 2 - 1);
+let instance: Server;
+
+export class Server {
+    private game: engine.Game;
+    private io: SocketIO.Server;
+
+    public constructor(io: SocketIO.Server) {
+        instance = this;
+        this.io = io;
+        this.io.on("connection", this.onConnect.bind(this));
+    }
+
+    public close(): void {
+        this.io.close();
+    }
+
+    private onConnect(socket: SocketIO.Socket) {
+
+    }
+
+    private generateMap(): void {
+        const maze = generateMaze(this.game.level.size.x / 2 - 1, this.game.level.size.y / 2 - 1);
         const walls: engine.Vector2[] = [];
         maze.forEach(row => {
             row.forEach(cell => {
@@ -16,11 +34,12 @@ export default class Server {
                 if (cell.right) walls.push(base.add(new engine.Vector2(1, 0)));
             });
         });
-        _.uniqBy(walls, v => v.x + "_" + v.y).forEach(v => {
-            level.addEntity(new engine.Wall({
+        eta._.uniqBy(walls, v => v.x + "_" + v.y).forEach(v => {
+            this.game.level.addEntity(new engine.Wall({
                 position: v
             }));
         });
-        console.log(level.buildRender());
     }
 }
+
+export default instance;

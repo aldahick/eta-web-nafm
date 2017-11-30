@@ -12,14 +12,16 @@
     "views": [
       "views"
     ],
-    "lifecycleHandlers": [],
+    "lifecycleHandlers": [
+      "lifecycle"
+    ],
     "requestTransformers": [],
     "subpathHandlers": []
   },
   "name": "hicks-web-nafm",
   "dependencies": [
     "crossroads-education/eta-web-shared",
-    "crossroads-education/eta-db-partial",
+    "crossroads-education/eta-db-shared",
     "crossroads-education/eta-auth-local"
   ],
   "indexes": [
@@ -28,6 +30,13 @@
       "type": "index",
       "dirs": [
         "lib/engine"
+      ]
+    },
+    {
+      "filename": "lib/index.ts",
+      "type": "index",
+      "dirs": [
+        "lib"
       ]
     },
     {

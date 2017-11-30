@@ -6,12 +6,10 @@ export default class Player extends Entity {
     public color = "lightgreen";
 
     public move(direction: Direction): void {
-        switch (direction) {
-            case Direction.Up: return <any>this.position.y--;
-            case Direction.Down: return <any>this.position.y++;
-            case Direction.Left: return <any>this.position.x--;
-            case Direction.Right: return <any>this.position.x++;
-        }
-        console.log(this.checkBoundaries(), this.position);
+        if (direction === Direction.Up) this.position.y--;
+        else if (direction === Direction.Down) this.position.y++;
+        else if (direction === Direction.Left) this.position.x--;
+        else if (direction === Direction.Right) this.position.x++;
+        console.log(this.checkBoundaries());
     }
 }

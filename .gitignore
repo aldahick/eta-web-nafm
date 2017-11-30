@@ -2,6 +2,7 @@
 *.js.map
 /eta.ts
 /db.ts
+/lib/index.ts
 /lib/engine/index.ts
 /node_modules
 /npm-debug.log
