@@ -2,7 +2,9 @@
   "css": {},
   "redirects": {},
   "dirs": {
-    "controllers": [],
+    "controllers": [
+      "controllers"
+    ],
     "models": [],
     "staticFiles": [
       "static"
@@ -24,12 +26,16 @@
     {
       "filename": "lib/engine/index.ts",
       "type": "index",
-      "dirs": ["lib/engine"]
+      "dirs": [
+        "lib/engine"
+      ]
     },
     {
       "filename": "static/js/nafm/engine.ts",
       "type": "export",
-      "dirs": ["lib/engine"]
+      "dirs": [
+        "lib/engine"
+      ]
     }
   ],
   "hooks": {}

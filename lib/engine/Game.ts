@@ -12,7 +12,7 @@ export default class Game {
             position: new Vector2(8, 4)
         });
         this.level = new Level();
-        this.level.entities.push(this.player);
+        this.level.addEntity(this.player);
     }
 
     public start(): void { }

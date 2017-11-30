@@ -11,5 +11,8 @@
   ],
   "engines": {
     "node": ">=8.4.0"
+  },
+  "dependencies": {
+    "generate-maze": "^0.2.0"
   }
 }

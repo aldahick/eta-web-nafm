@@ -11,6 +11,10 @@ export default class Vector2 {
         return new Vector2(this.x, this.y);
     }
 
+    public equals(other: Vector2): boolean {
+        return other.x === this.x && other.y === this.y;
+    }
+
     public add(other: Vector2 | number): Vector2 {
         return this.calculate(other, (a, b) => a + b);
     }

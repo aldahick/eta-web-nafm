@@ -4,6 +4,7 @@ export default class ClientGame extends engine.Game {
     public constructor() {
         super();
         $(document.body).on("keypress", this.onKeyPress.bind(this));
+        (<any>window).game = this;
     }
 
     public start(): void {
@@ -20,19 +21,19 @@ export default class ClientGame extends engine.Game {
         switch (evt.which) {
             case JQuery.Key.ArrowUp:
             case JQuery.Key.W:
-                this.player.position.y--;
+                this.player.move(engine.Direction.Up);
                 break;
             case JQuery.Key.ArrowDown:
             case JQuery.Key.S:
-                this.player.position.y++;
+                this.player.move(engine.Direction.Down);
                 break;
             case JQuery.Key.ArrowLeft:
             case JQuery.Key.A:
-                this.player.position.x--;
+                this.player.move(engine.Direction.Left);
                 break;
             case JQuery.Key.ArrowRight:
             case JQuery.Key.D:
-                this.player.position.x++;
+                this.player.move(engine.Direction.Right);
                 break;
         }
         this.render();
