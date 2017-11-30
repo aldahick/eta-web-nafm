@@ -2,9 +2,7 @@
   "css": {},
   "redirects": {},
   "dirs": {
-    "controllers": [
-      "controllers"
-    ],
+    "controllers": [],
     "models": [],
     "staticFiles": [
       "static"
