@@ -6,7 +6,6 @@
   "repository": null,
   "devDependencies": {
     "@types/bootstrap": "^3.3.35",
-    "@types/es6-shim": "^0.31.34",
     "@types/jquery": "^3.2.16",
     "@types/socket.io-client": "^1.4.32",
     "@types/systemjs": "^0.20.2"
