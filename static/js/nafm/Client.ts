@@ -30,6 +30,9 @@ export default class ClientGame {
         const output: HTMLElement = document.getElementById("chat-output");
         const timestamp: string = moment(msg.timestamp).format("hh:mm a");
         output.innerHTML += `(${timestamp}) &lt;<span style="color: ${msg.color};">${msg.name}</span>&gt; ${msg.message}\n`;
+        $(output).animate({
+            scrollTop: $(output).prop("scrollHeight")
+        }, 200);
     }
 
     private onKeyPress(evt: JQuery.Event): void {
@@ -46,6 +49,7 @@ export default class ClientGame {
         if (evt.which === JQuery.Key.ArrowDown || evt.which === JQuery.Key.S) direction = Direction.Down;
         if (evt.which === JQuery.Key.ArrowLeft || evt.which === JQuery.Key.A) direction = Direction.Left;
         if (evt.which === JQuery.Key.ArrowRight || evt.which === JQuery.Key.D) direction = Direction.Right;
+        if (direction === undefined) return;
         this.socket.emit("move", direction);
     }
 }
