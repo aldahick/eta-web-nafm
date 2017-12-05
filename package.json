@@ -13,6 +13,7 @@
     "node": ">=8.4.0"
   },
   "dependencies": {
+    "bsp-tree": "^1.0.0",
     "generate-maze": "^0.2.0"
   }
 }
