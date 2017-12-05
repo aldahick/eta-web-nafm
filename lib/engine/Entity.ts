@@ -2,6 +2,9 @@ import Level from "./Level";
 import Vector2 from "./Vector2";
 
 export default class Entity {
+    private static lastId = -1;
+    public id: number;
+    public isHidden = false;
     public level: Level;
     public position: Vector2;
     public char: string;
@@ -9,6 +12,7 @@ export default class Entity {
 
     public constructor(init: Partial<Entity>) {
         Object.assign(this, init);
+        this.id = ++Entity.lastId;
     }
 
     public checkBoundaries(): boolean {
