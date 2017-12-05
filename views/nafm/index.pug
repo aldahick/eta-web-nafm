@@ -1,4 +1,11 @@
 extends ../../../cre-web-shared/views/shared/layout.pug
 
 block body
-    pre#canvas
+    div.col-xs-12.col-md-8.col-lg-6
+        pre#canvas
+        label Automated Game Messages
+        input.nafm-flag(type="checkbox", data-name="auto", checked)
+    div.col-md-4.col-lg-6
+        div#chat-container
+            div#chat-output
+            input.form-control#chat-input(type="text", placeholder="Chat")
