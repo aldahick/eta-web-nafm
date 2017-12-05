@@ -2,7 +2,7 @@ import Level from "./Level";
 import Vector2 from "./Vector2";
 
 export default class Entity {
-    private static lastId = -1;
+    private static lastId = 0;
     public id: number;
     public isHidden = false;
     public level: Level;

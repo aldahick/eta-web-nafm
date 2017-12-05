@@ -3,13 +3,15 @@ import * as engine from "./engine";
 import * as generateMaze from "generate-maze";
 import * as session from "express-session";
 import * as LevelGenerator from "./engine/generation/LevelGenerator.js";
-
+import ChatMessage from "./ChatMessage";
+import Client from "./Client";
 
 let instance: Server;
 
 export class Server {
-    private game: engine.Game;
-    private io: SocketIO.Server;
+    public chatMessages: ChatMessage[] = [];
+    public game: engine.Game;
+    public io: SocketIO.Server;
 
     public constructor(io: SocketIO.Server) {
         instance = this;
@@ -28,24 +30,8 @@ export class Server {
             session: Express.Session
         }
     }): Promise<void> {
-        const session: Express.Session = socket.handshake.session;
-        let player: engine.Player = <engine.Player>this.game.findEntity(session.nafmId);
-        if (player) {
-            player.isHidden = false;
-        } else {
-            player = this.game.addPlayer();
-            session.nafmId = player.id;
-            await eta.session.save(session);
-        }
-        socket.emit("render", this.game.level.buildRender());
-        socket.on("move", (direction: engine.Direction) => {
-            player.move(direction);
-            this.sendRender();
-        });
-        socket.on("disconnect", () => {
-            player.isHidden = true;
-            this.sendRender();
-        });
+        const client = new Client(this, socket);
+        await client.setup();
     }
 
     private generateMap(): void {
@@ -73,8 +59,17 @@ export class Server {
 
     }
 
-    private sendRender(): void {
+    public sendRender(): void {
         this.io.emit("render", this.game.level.buildRender());
+    }
+
+    public sendChat(name: string, message: string, color: string, auto = false): void {
+        this.chatMessages.push({
+            message, color, name, auto,
+            timestamp: new Date(),
+        });
+        this.io.emit("chat", this.chatMessages[this.chatMessages.length - 1]);
+        this.chatMessages = this.chatMessages.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
     }
 }
 

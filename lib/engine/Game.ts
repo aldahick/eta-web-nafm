@@ -11,6 +11,9 @@ const randomColor: (options?: {
     alpha?: number;
 }) => string = require("randomcolor");
 
+const PLAYER_COLORS: string[] = ["blue", "yellow", "red", "green", "pink", "orange"];
+let lastPlayerColorIndex = 0;
+
 export default class Game {
     public level: Level;
     public constructor() {
@@ -27,7 +30,8 @@ export default class Game {
         const player = new Player({
             position: new Vector2(8, 4),
             color: randomColor({
-                luminosity: "bright"
+                luminosity: "light",
+                hue: PLAYER_COLORS[lastPlayerColorIndex++]
             })
         });
         this.level.addEntity(player);

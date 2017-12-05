@@ -7,7 +7,6 @@
   "devDependencies": {
     "@types/bootstrap": "^3.3.35",
     "@types/jquery": "^3.2.16",
-    "@types/socket.io-client": "^1.4.32",
-    "@types/systemjs": "^0.20.2"
+    "@types/socket.io-client": "^1.4.32"
   }
 }
