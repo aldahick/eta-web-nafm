@@ -2,6 +2,8 @@ import * as eta from "../eta";
 import * as engine from "./engine";
 import * as generateMaze from "generate-maze";
 import * as session from "express-session";
+import * as LevelGenerator from "./engine/generation/LevelGenerator.js";
+
 
 let instance: Server;
 
@@ -12,6 +14,7 @@ export class Server {
     public constructor(io: SocketIO.Server) {
         instance = this;
         this.game = new engine.Game();
+        this.generateMap();
         this.io = io;
         this.io.on("connection", socket => this.onConnect(<any>socket).catch(err => eta.logger.error(err)));
     }
@@ -46,6 +49,7 @@ export class Server {
     }
 
     private generateMap(): void {
+        /*
         const maze = generateMaze(this.game.level.size.x / 2 - 1, this.game.level.size.y / 2 - 1);
         const walls: engine.Vector2[] = [];
         for (const row of maze) {
@@ -60,6 +64,13 @@ export class Server {
         eta._.uniqBy(walls, v => v.x + "_" + v.y).forEach(position => {
             this.game.level.addEntity(new engine.Wall({ position }));
         });
+        */
+        let lg = new LevelGenerator.default();
+        let walls: engine.Wall[] = lg.generateRooms(200, 50, 5);
+        for(let i: number = 0; i < walls.length; i++){
+            this.game.level.addEntity(walls[i]);
+        }
+
     }
 
     private sendRender(): void {
