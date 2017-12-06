@@ -1,4 +1,5 @@
 import * as events from "events";
+import Direction from "./Direction";
 import Level from "./Level";
 import Vector2 from "./Vector2";
 
@@ -15,6 +16,18 @@ export default class Entity extends events.EventEmitter {
         super();
         Object.assign(this, init);
         this.id = ++Entity.lastId;
+    }
+
+    public move(direction: Direction): boolean {
+        const tempPosition: Vector2 = this.position.clone();
+        if (direction === Direction.Up) tempPosition.y--;
+        else if (direction === Direction.Down) tempPosition.y++;
+        else if (direction === Direction.Left) tempPosition.x--;
+        else if (direction === Direction.Right) tempPosition.x++;
+        if (this.level.entities.find(e => e.position.equals(tempPosition)) !== undefined) return false;
+        this.position = tempPosition;
+        if (this.checkBoundaries()) return false;
+        return true;
     }
 
     public checkBoundaries(): boolean {
