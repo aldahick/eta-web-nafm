@@ -52,6 +52,8 @@ export default class Client {
         this.player.on("killed", (killer: engine.Entity) => {
             this.server.sendChat("System", `${killer.char} killed ${this.player.coloredName}.`, "white");
             this.sendChat("System", "You have been disconnected from the server because you died.", "red");
+            this.socket.handshake.session.nafmServerUID = undefined;
+            this.socket.handshake.session.save(() => {});
             this.socket.emit("killed");
             this.socket.disconnect();
         });
