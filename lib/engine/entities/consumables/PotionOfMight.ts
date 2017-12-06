@@ -11,6 +11,6 @@ export default class PotionOfMight extends Consumable {
     }
 
     public consume(player: Player){
-        player.stats.attack += 3;
+        player.stats.attack += 2;
     }
 }

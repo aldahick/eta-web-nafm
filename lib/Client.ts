@@ -43,7 +43,7 @@ export default class Client {
                 this.server.sendRender();
             });
         }
-        this.player.on("consumed", (item: engine.Item) => {
+        this.player.on("consumed", (item: engine.Consumable) => {
             this.server.sendChat("System", item.message, "white");
         });
         this.socket.emit("ready", { id: this.player.id, isNew });
