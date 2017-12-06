@@ -1,10 +1,12 @@
 import * as eta from "../../../eta";
+import * as fs from "fs-extra";
 import Direction from "../Direction";
 import Entity from "../Entity";
 import Player from "./Player";
 import Vector2 from "../Vector2";
 
 export default class Enemy extends Entity {
+    private static definitions: {[key: string]: Partial<Enemy>} = {};
     public char = "$";
     public color = "red";
     public get isTracking(): boolean { return this.target !== undefined; }
@@ -19,6 +21,7 @@ export default class Enemy extends Entity {
 
     public constructor(init: Partial<Entity>) {
         super(init);
+        Object.assign(this, init);
         this.on("combat", (player: Player) => {
             this.target = player;
             this.update();
@@ -78,6 +81,29 @@ export default class Enemy extends Entity {
             }
         }
         return undefined;
+    }
+
+    public static create(name: string, _init: Partial<Entity>): Enemy {
+        if (!this.definitions[name]) {
+            eta.logger.warn("Enemy definition " + name + " could not be found.");
+            return undefined;
+        }
+        const init: any = eta._.extend(this.definitions[name], _init);
+        console.log(init);
+        if (init.color instanceof Array) {
+            init.color = init.color[eta._.random(0, init.color.length)];
+        }
+        return new Enemy(init);
+    }
+
+    public static async load(): Promise<void> {
+        const filenames: string[] = await eta.fs.recursiveReaddir(__dirname + "/enemies");
+        for (const filename of filenames) {
+            const name: string = filename.replace(/\\/g, "/").split("/").slice(-1)[0].split(".").slice(0, -1).join(".");
+            console.log(name);
+            const definition = await fs.readJSON(filename);
+            this.definitions[name] = definition;
+        }
     }
 }
 
