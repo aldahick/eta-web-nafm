@@ -12,6 +12,10 @@ export default class Level {
         return <Player[]>this.entities.filter(e => e instanceof Player);
     }
 
+    public getEntityAt(position: Vector2): Entity {
+        return this.entities.find(e => e.position.equals(position));
+    }
+
     public addEntity(entity: Entity): void {
         entity.level = this;
         this.entities.push(entity);
