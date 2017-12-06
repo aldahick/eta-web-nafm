@@ -47,6 +47,10 @@ export default class Client {
         this.server.sendRender();
     }
 
+    public sendChat(name: string, message: string, color: string, auto = false): void {
+        this.socket.emit("chat", this.server.buildChatMessage(name, message, color, auto));
+    }
+
     private onChat(message: string): void {
         this.server.sendChat(this.player.name, eta._.escape(message), this.player.color);
     }

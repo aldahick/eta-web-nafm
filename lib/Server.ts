@@ -56,13 +56,17 @@ export class Server {
     }
 
     public sendChat(name: string, message: string, color: string, auto = false): void {
-        this.chatMessages.push({
-            message, color, name, auto,
-            timestamp: new Date(),
-        });
+        this.chatMessages.push(this.buildChatMessage(name, message, color, auto));
         if (!auto) eta.logger.trace(`<${name}> ${message}`);
         this.io.emit("chat", this.chatMessages[this.chatMessages.length - 1]);
         this.chatMessages = this.chatMessages.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+    }
+
+    public buildChatMessage(name: string, message: string, color: string, auto = false): ChatMessage {
+        return {
+            message, color, name, auto,
+            timestamp: new Date(),
+        };
     }
 }
 
