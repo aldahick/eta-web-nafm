@@ -2,7 +2,6 @@ import * as eta from "../eta";
 import * as engine from "./engine";
 import * as generateMaze from "generate-maze";
 import * as session from "express-session";
-import * as LevelGenerator from "./engine/generation/LevelGenerator.js";
 import ChatMessage from "./ChatMessage";
 import Client from "./Client";
 
@@ -35,28 +34,9 @@ export class Server {
     }
 
     private generateMap(): void {
-        /*
-        const maze = generateMaze(this.game.level.size.x / 2 - 1, this.game.level.size.y / 2 - 1);
-        const walls: engine.Vector2[] = [];
-        for (const row of maze) {
-            for (const cell of row) {
-                const base = new engine.Vector2(cell.x * 2 + 1, cell.y * 2 + 1);
-                if (cell.top) walls.push(base.add(new engine.Vector2(0, -1)));
-                if (cell.bottom) walls.push(base.add(new engine.Vector2(0, 1)));
-                if (cell.left) walls.push(base.add(new engine.Vector2(-1, 0)));
-                if (cell.right) walls.push(base.add(new engine.Vector2(1, 0)));
-            }
-        }
-        eta._.uniqBy(walls, v => v.x + "_" + v.y).forEach(position => {
-            this.game.level.addEntity(new engine.Wall({ position }));
-        });
-        */
-        let lg = new LevelGenerator.default();
-        let walls: engine.Wall[] = lg.generateRooms(200, 50, 5);
-        for(let i: number = 0; i < walls.length; i++){
-            this.game.level.addEntity(walls[i]);
-        }
-
+        const generator = new engine.LevelGenerator();
+        generator.generateRooms(new engine.Vector2(200, 50), 5)
+            .forEach(wall => this.game.level.addEntity(wall));
     }
 
     public sendRender(): void {
