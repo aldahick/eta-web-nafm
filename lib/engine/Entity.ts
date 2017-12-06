@@ -20,8 +20,7 @@ export default class Entity {
             x: this.checkBoundariesPart("x"),
             y: this.checkBoundariesPart("y")
         };
-        return colliding.x || colliding.y || this.level.entities
-            .find(e => e instanceof Wall && e.position.equals(this.position)) !== undefined;
+        return colliding.x || colliding.y;
     }
 
     private checkBoundariesPart(component: "x" | "y"): boolean {

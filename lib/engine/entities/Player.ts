@@ -1,5 +1,6 @@
 import Direction from "../Direction";
 import Entity from "../Entity";
+import Vector2 from "../Vector2";
 
 export default class Player extends Entity {
     private static lastPlayerId = 0;
@@ -15,10 +16,13 @@ export default class Player extends Entity {
     }
 
     public move(direction: Direction): void {
-        if (direction === Direction.Up) this.position.y--;
-        else if (direction === Direction.Down) this.position.y++;
-        else if (direction === Direction.Left) this.position.x--;
-        else if (direction === Direction.Right) this.position.x++;
+        const tempPosition: Vector2 = this.position.clone();
+        if (direction === Direction.Up) tempPosition.y--;
+        else if (direction === Direction.Down) tempPosition.y++;
+        else if (direction === Direction.Left) tempPosition.x--;
+        else if (direction === Direction.Right) tempPosition.x++;
+        if (this.level.entities.find(e => e.position.equals(tempPosition)) !== undefined) return;
+        this.position = tempPosition;
         this.checkBoundaries();
     }
 }
