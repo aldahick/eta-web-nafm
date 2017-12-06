@@ -35,10 +35,6 @@ export class Server {
         const client = new Client(this, socket);
         this.clients.push(client);
         await client.setup();
-        if (this.clients.length === 1) {
-            client.player.inTurn = true;
-            client.player.movesLeft = engine.Player.MOVES_PER_TURN;
-        }
     }
 
     private generateMap(): void {
