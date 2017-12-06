@@ -49,6 +49,12 @@ export class Server {
                 });
             }
         });
+<<<<<<< HEAD
+=======
+        this.game.level.addEntity(engine.Enemy.create("bat", {
+            position: new engine.Vector2(7, 1)
+        }));
+>>>>>>> 6b6dfb7414d2cfef2e7af2539b2c512f3ab729b2
     }
 
     public sendRender(): void {

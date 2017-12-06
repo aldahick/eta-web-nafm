@@ -1,0 +1,27 @@
+﻿Merge branch 'master' of github.com:aldahick/eta-web-nafm
+
+# Conflicts:
+#	lib/Server.ts
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 2 and 3 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	new file:   2jvxukgh.uun.txt
+#	new file:   duvq0gud.4x4.txt
+#	new file:   ec1usvaa.imm.txt
+#	modified:   lib/Server.ts
+#
+
