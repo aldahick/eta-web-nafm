@@ -1,3 +1,4 @@
+import * as eta from "../../eta";
 import Entity from "./Entity";
 import Level from "./Level";
 import Player from "./entities/Player";
@@ -27,7 +28,7 @@ export default class Game {
 
     public addPlayer(): Player {
         const player = new Player({
-            position: new Vector2(8, 4),
+            position: new Vector2(1, 1),
             color: randomColor({
                 luminosity: "light",
                 hue: PLAYER_COLORS[lastPlayerColorIndex++]

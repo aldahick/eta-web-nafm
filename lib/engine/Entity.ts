@@ -1,7 +1,8 @@
+import * as events from "events";
 import Level from "./Level";
 import Vector2 from "./Vector2";
 
-export default class Entity {
+export default class Entity extends events.EventEmitter {
     private static lastId = 0;
     public id: number;
     public isHidden = false;
@@ -11,6 +12,7 @@ export default class Entity {
     public color = "white";
 
     public constructor(init: Partial<Entity>) {
+        super();
         Object.assign(this, init);
         this.id = ++Entity.lastId;
     }

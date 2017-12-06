@@ -10,6 +10,7 @@ let instance: Server;
 export class Server {
     public uid: string;
     public chatMessages: ChatMessage[] = [];
+    public clients: Client[] = [];
     public game: engine.Game;
     public io: SocketIO.Server;
 
@@ -33,6 +34,11 @@ export class Server {
     }): Promise<void> {
         const client = new Client(this, socket);
         await client.setup();
+        if (this.clients.length === 0) {
+            client.player.inTurn = true;
+            client.player.movesLeft = engine.Player.MOVES_PER_TURN;
+        }
+        this.clients.push(client);
     }
 
     private generateMap(): void {

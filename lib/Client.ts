@@ -3,7 +3,7 @@ import * as engine from "./engine/index";
 import { Server } from "./Server";
 
 export default class Client {
-    private player: engine.Player;
+    public player: engine.Player;
     private server: Server;
     private socket: SocketIO.Socket & {
         handshake: {
@@ -56,8 +56,23 @@ export default class Client {
     }
 
     private onMove(direction: engine.Direction): void {
-        this.player.move(direction);
+        if (!this.player.move(direction)) return;
         this.server.sendRender();
-        this.server.sendChat("System", `${this.player.coloredName} moved ${engine.Direction[direction].toLowerCase()}`, "white", true);
+        this.server.sendChat("System", `${this.player.coloredName} moved ${engine.Direction[direction].toLowerCase()}.`, "white", true);
+        if (this.player.movesLeft <= 0) {
+            this.player.inTurn = false;
+            this.onTurnEnd();
+        }
+    }
+
+    private onTurnEnd(): void {
+        const index = this.server.game.level.entities.findIndex(e => e.id === this.player.id);
+        const newIndex = eta._.range(index + 1, this.server.game.level.entities.length).concat(eta._.range(0, index + 1)).find(i => {
+            return this.server.game.level.entities[i] instanceof engine.Player;
+        });
+        const newPlayer = <engine.Player>this.server.game.level.entities[newIndex];
+        newPlayer.inTurn = true;
+        newPlayer.movesLeft = engine.Player.MOVES_PER_TURN;
+        this.server.sendChat("System", `It is now ${newPlayer.coloredName}'s turn.`, "white");
     }
 }
