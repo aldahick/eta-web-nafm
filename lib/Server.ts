@@ -45,6 +45,16 @@ export class Server {
         const generator = new engine.LevelGenerator();
         generator.generateRooms(new engine.Vector2(200, 50), 4)
             .forEach(wall => this.game.level.addEntity(wall));
+        this.game.level.on("entity-add", (entity: engine.Entity) => {
+            if (entity instanceof engine.Enemy) {
+                entity.on("killed", (killer: engine.Player) => {
+                    this.sendChat("Server", `${killer.coloredName} killed ${entity.char}.`, "white");
+                });
+            }
+        });
+        this.game.level.addEntity(new engine.Skeleton({
+            position: new engine.Vector2(7, 1)
+        }));
     }
 
     public sendRender(): void {
