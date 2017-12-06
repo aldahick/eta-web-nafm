@@ -1,3 +1,5 @@
+import Direction from "./Direction";
+
 export default class Vector2 {
     public x: number;
     public y: number;
@@ -39,6 +41,16 @@ export default class Vector2 {
         return this.calculate(other, Math.max);
     }
 
+    public lessThan(other: Vector2 | number): boolean {
+        if (typeof(other) === "number") other = new Vector2(other, other);
+        return other.x > this.x && other.y > this.y;
+    }
+
+    public moreThan(other: Vector2 | number): boolean {
+        if (typeof(other) === "number") other = new Vector2(other, other);
+        return other.x < this.x && other.y < this.y;
+    }
+
     public getLinearDistance(other: Vector2): number {
         const distance = this.calculate(other, (a, b) => Math.pow(a - b, 2));
         return Math.sqrt(distance.x + distance.y);
@@ -69,5 +81,23 @@ export default class Vector2 {
 
     public transform(worker: (value: number) => number): Vector2 {
         return new Vector2(worker(this.x), worker(this.y));
+    }
+
+    public getLinePointsTo(other: Vector2): Vector2[] {
+        const points: Vector2[] = [];
+        const slope: number = (other.y - this.y) / (other.x - this.x);
+        for (let x = this.x + 1; x < other.x; x++) {
+            points.push(new Vector2(x, Math.floor(slope * x + this.y)));
+        }
+        return points;
+    }
+
+    public getDirectionTo(other: Vector2): Direction {
+        if (this.y === other.y) {
+            return this.x > other.x ? Direction.Left : Direction.Right;
+        } else if (this.x === other.x) {
+            return this.y > other.y ? Direction.Up : Direction.Down;
+        }
+        return undefined;
     }
 }
