@@ -1,5 +1,4 @@
 import Entity from "./Entity";
-import EventEmitter from "./EventEmitter";
 import Level from "./Level";
 import Player from "./entities/Player";
 import Vector2 from "./Vector2";
