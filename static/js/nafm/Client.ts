@@ -34,6 +34,7 @@ export default class ClientGame {
         this.socket.on("render", this.onRender.bind(this));
         this.socket.on("stats", this.onStats.bind(this));
         this.socket.on("chat", this.onChat.bind(this));
+        this.socket.on("killed", this.onKilled.bind(this));
     }
 
     public onRender(renderedMap: string[][]): void {
@@ -75,7 +76,13 @@ export default class ClientGame {
         $(output).scrollTop($(output).prop("scrollHeight"));
     }
 
+    public onKilled(): void {
+        // this.socket.disconnect();
+        alert("You have died. The end!");
+    }
+
     private onKeyPress(evt: JQuery.Event): void {
+        if (this.socket.disconnected) return;
         if ($(evt.target).prop("id") === "chat-input") {
             if (evt.which === 13) {
                 this.socket.emit("chat", $("#chat-input").val());

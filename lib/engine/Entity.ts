@@ -1,8 +1,8 @@
+import * as eta from "../../eta";
 import * as events from "events";
 import Direction from "./Direction";
 import Level from "./Level";
 import Vector2 from "./Vector2";
-
 
 export default class Entity extends events.EventEmitter {
     private static lastId = 0;
@@ -12,6 +12,11 @@ export default class Entity extends events.EventEmitter {
     public position: Vector2;
     public char: string;
     public color = "white";
+    public stats: {
+        health: number;
+        armor: number;
+        attack: number;
+    };
 
     public constructor(init: Partial<Entity>) {
         super();
@@ -19,16 +24,54 @@ export default class Entity extends events.EventEmitter {
         this.id = ++Entity.lastId;
     }
 
-    public move(direction: Direction): boolean {
-        const tempPosition: Vector2 = this.position.clone();
-        if (direction === Direction.Up) tempPosition.y--;
-        else if (direction === Direction.Down) tempPosition.y++;
-        else if (direction === Direction.Left) tempPosition.x--;
-        else if (direction === Direction.Right) tempPosition.x++;
-        if (this.level.entities.find(e => e.position.equals(tempPosition) && !(e instanceof Consumable)) !== undefined) return false;
-        this.position = tempPosition;
-        if (this.checkBoundaries()) return false;
-        return true;
+    public attack(target: Entity): void {
+        if (!target.stats) {
+            return;
+        }
+        if (eta._.random(0, 20) > target.stats.armor) {
+            target.stats.health -= this.stats.attack;
+            this.emit("combat-attack", target, this);
+            target.emit("combat-defend", this, target);
+            if (target.stats.health <= 0) {
+                target.kill(this);
+                return;
+            }
+        }
+        target.emit("combat", this);
+    }
+
+    public kill(killer: Entity): void {
+        this.isHidden = true;
+        this.level.removeEntity(this.id);
+        this.emit("killed", killer);
+    }
+
+    public move(direction: Direction): {
+        result: boolean;
+        desiredPosition: Vector2;
+    } {
+        const desiredPosition: Vector2 = this.position.clone();
+        if (direction === Direction.Up) desiredPosition.y--;
+        else if (direction === Direction.Down) desiredPosition.y++;
+        else if (direction === Direction.Left) desiredPosition.x--;
+        else if (direction === Direction.Right) desiredPosition.x++;
+        if (this.level.entities.find(e => e.position.equals(desiredPosition) && !(e instanceof Consumable)) !== undefined) {
+            return {
+                result: false,
+                desiredPosition
+            };
+        }
+        this.position = desiredPosition;
+        if (this.checkBoundaries()) {
+            return {
+                result: false,
+                desiredPosition
+            };
+        }
+        return {
+            result: true,
+            desiredPosition
+        };
     }
 
     public checkBoundaries(): boolean {

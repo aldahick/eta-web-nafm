@@ -1,10 +1,11 @@
+import * as events from "events";
 import Entity from "./Entity";
 import Player from "./entities/Player";
 import Vector2 from "./Vector2";
 import * as _ from "lodash";
 import * as eta from "../../eta";
 
-export default class Level {
+export default class Level extends events.EventEmitter {
     public size: Vector2 = new Vector2(200, 50);
     public entities: Entity[] = [];
 
@@ -19,6 +20,7 @@ export default class Level {
     public addEntity(entity: Entity): void {
         entity.level = this;
         this.entities.push(entity);
+        this.emit("entity-add", entity);
     }
 
     public removeEntity(id: number): void {
