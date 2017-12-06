@@ -21,6 +21,12 @@ export default class Level {
         this.entities.push(entity);
     }
 
+    public removeEntity(id: number): void {
+        const index = this.entities.findIndex(e => e.id === id);
+        if (index === -1) return;
+        this.entities.splice(index, 1);
+    }
+
     public buildRender(): string[][] {
         const rows: string[][] = new Array(this.size.y).fill(0).map(r => new Array(this.size.x).fill("."));
         this.entities.filter(e => !e.isHidden).forEach(e => {
