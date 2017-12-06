@@ -1,0 +1,10 @@
+{
+  "char": "z",
+  "color": "mediumaquamarine",
+  "stats": {
+    "health": 24,
+    "armor": 0,
+    "attack": 10
+  },
+  "xp": 19
+}

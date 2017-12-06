@@ -1,0 +1,10 @@
+{
+  "char": "Y",
+  "color": ["red", "green", "blue", "dimgrey"],
+  "stats": {
+    "health": 120,
+    "armor": 16,
+    "attack": 14
+  },
+  "xp": 60
+}

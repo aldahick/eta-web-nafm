@@ -1,0 +1,10 @@
+{
+  "char": "o",
+  "color": "olivedrab",
+  "stats": {
+    "health": 24,
+    "armor": 5,
+    "attack": 9
+  },
+  "xp": 19
+}

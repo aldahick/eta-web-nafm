@@ -1,0 +1,10 @@
+{
+  "char": "G",
+  "color": "bisque",
+  "stats": {
+    "health": 50,
+    "armor": 12,
+    "attack": 14
+  },
+  "xp": 30
+}

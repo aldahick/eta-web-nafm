@@ -1,0 +1,10 @@
+{
+  "char": "g",
+  "color": "palegoldenrod",
+  "stats": {
+    "health": 20,
+    "armor": 5,
+    "attack": 7
+  },
+  "xp": 17
+}

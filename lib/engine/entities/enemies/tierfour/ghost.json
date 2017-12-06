@@ -1,0 +1,10 @@
+{
+  "char": "b",
+  "color": "whitesmoke",
+  "stats": {
+    "health": 20,
+    "armor": 0,
+    "attack": 8
+  },
+  "xp": 17
+}
