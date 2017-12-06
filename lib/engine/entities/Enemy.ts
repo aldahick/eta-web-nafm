@@ -89,7 +89,6 @@ export default class Enemy extends Entity {
             return undefined;
         }
         const init: any = eta._.extend(this.definitions[name], _init);
-        console.log(init);
         if (init.color instanceof Array) {
             init.color = init.color[eta._.random(0, init.color.length)];
         }
@@ -100,7 +99,6 @@ export default class Enemy extends Entity {
         const filenames: string[] = await eta.fs.recursiveReaddir(__dirname + "/enemies");
         for (const filename of filenames) {
             const name: string = filename.replace(/\\/g, "/").split("/").slice(-1)[0].split(".").slice(0, -1).join(".");
-            console.log(name);
             const definition = await fs.readJSON(filename);
             this.definitions[name] = definition;
         }

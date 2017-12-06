@@ -29,7 +29,7 @@ export default class Client {
         this.socket.on("disconnect", this.onDisconnect.bind(this));
         this.socket.on("move", this.onMove.bind(this));
         this.server.chatMessages.forEach(msg => this.socket.emit("chat", msg));
-        const isNew: boolean = !this.player;
+        const isNew: boolean = !(this.player && this.player.name);
         if (this.player) {
             this.player.isHidden = false;
             this.server.sendChat("System", `${this.player.coloredName} reconnected.`, "white");

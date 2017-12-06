@@ -16,6 +16,7 @@ export default class Entity extends events.EventEmitter {
         health: number;
         armor: number;
         attack: number;
+        xp: number;
     };
 
     public constructor(init: Partial<Entity>) {
@@ -34,6 +35,8 @@ export default class Entity extends events.EventEmitter {
             target.emit("combat-defend", this, target);
             if (target.stats.health <= 0) {
                 target.kill(this);
+                if ((<any>this)._stats) (<any>this)._stats.xp += target.stats.xp;
+                else this.stats.xp += target.stats.xp;
                 return;
             }
         }
