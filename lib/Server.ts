@@ -45,6 +45,16 @@ export class Server {
         const generator = new engine.LevelGenerator();
         generator.generateRooms(new engine.Vector2(200, 50), 4)
             .forEach(wall => this.game.level.addEntity(wall));
+        this.game.level.on("entity-add", (entity: engine.Entity) => {
+            if (entity instanceof engine.Enemy) {
+                entity.on("killed", (killer: engine.Player) => {
+                    this.sendChat("Server", `${killer.coloredName} killed ${entity.char}.`, "white");
+                });
+            }
+        });
+        this.game.level.addEntity(new engine.Skeleton({
+            position: new engine.Vector2(7, 1)
+        }));
     }
 
     public sendRender(): void {
@@ -56,13 +66,17 @@ export class Server {
     }
 
     public sendChat(name: string, message: string, color: string, auto = false): void {
-        this.chatMessages.push({
-            message, color, name, auto,
-            timestamp: new Date(),
-        });
+        this.chatMessages.push(this.buildChatMessage(name, message, color, auto));
         if (!auto) eta.logger.trace(`<${name}> ${message}`);
         this.io.emit("chat", this.chatMessages[this.chatMessages.length - 1]);
         this.chatMessages = this.chatMessages.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+    }
+
+    public buildChatMessage(name: string, message: string, color: string, auto = false): ChatMessage {
+        return {
+            message, color, name, auto,
+            timestamp: new Date(),
+        };
     }
 }
 
