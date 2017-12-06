@@ -73,6 +73,6 @@ export default class Client {
         const newPlayer = <engine.Player>this.server.game.level.entities[newIndex];
         newPlayer.inTurn = true;
         newPlayer.movesLeft = engine.Player.MOVES_PER_TURN;
-        this.server.sendChat("System", `It is now ${newPlayer.coloredName}'s turn.`, "white");
+        this.server.sendChat("System", `It is now ${newPlayer.coloredName}'s turn.`, "white", true);
     }
 }
