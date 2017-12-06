@@ -32,6 +32,7 @@ export default class ClientGame {
             }
         });
         this.socket.on("render", this.onRender.bind(this));
+        this.socket.on("stats", this.onStats.bind(this));
         this.socket.on("chat", this.onChat.bind(this));
     }
 
@@ -60,6 +61,10 @@ export default class ClientGame {
             });
         })();
         $("#canvas").html(renderedMap.map(r => r.join("")).join("\n"));
+    }
+
+    public onStats(stats: string): void {
+        $("#stats").html(stats);
     }
 
     public onChat(msg: ChatMessage): void {

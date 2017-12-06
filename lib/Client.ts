@@ -5,7 +5,7 @@ import { Server } from "./Server";
 export default class Client {
     public player: engine.Player;
     private server: Server;
-    private socket: SocketIO.Socket & {
+    public socket: SocketIO.Socket & {
         handshake: {
             session: Express.Session
         }
@@ -40,6 +40,7 @@ export default class Client {
             this.socket.on("name", (name: string) => {
                 this.player.name = name;
                 this.server.sendChat("System", `${this.player.coloredName} joined.`, "white");
+                this.server.sendRender();
             });
         }
         this.socket.emit("ready", { id: this.player.id, isNew });

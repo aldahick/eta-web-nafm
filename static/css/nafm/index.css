@@ -1,10 +1,21 @@
-#canvas {
+#canvas, #stats {
     font-family: monospace;
     font-size: 13px;
     background-color: black;
     color: white;
     line-height: 1;
     overflow: hidden;
+}
+
+#canvas {
+    margin-bottom: 0;
+}
+
+#stats {
+    font-size: 14px;
+    cursor: default;
+    border: none;
+    padding: 10px 12px;
 }
 
 #chat-container {

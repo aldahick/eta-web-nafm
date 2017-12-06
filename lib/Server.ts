@@ -33,12 +33,12 @@ export class Server {
         }
     }): Promise<void> {
         const client = new Client(this, socket);
+        this.clients.push(client);
         await client.setup();
-        if (this.clients.length === 0) {
+        if (this.clients.length === 1) {
             client.player.inTurn = true;
             client.player.movesLeft = engine.Player.MOVES_PER_TURN;
         }
-        this.clients.push(client);
     }
 
     private generateMap(): void {
@@ -49,6 +49,10 @@ export class Server {
 
     public sendRender(): void {
         this.io.emit("render", this.game.level.buildRender());
+        this.clients.forEach(c => {
+            if (c.socket.disconnected) return;
+            if (c.player.name) c.socket.emit("stats", c.player.getStats());
+        });
     }
 
     public sendChat(name: string, message: string, color: string, auto = false): void {

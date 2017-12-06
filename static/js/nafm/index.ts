@@ -6,6 +6,10 @@ function setupStyles(): void {
         "height": height * 0.4,
         "max-height": height * 0.4
     });
+    // $("#stats").css({
+    //     "height": $("#chat-input").height(),
+    //     "max-height": $("#chat-input").height()
+    // });
 }
 
 $(document).ready(() => {
