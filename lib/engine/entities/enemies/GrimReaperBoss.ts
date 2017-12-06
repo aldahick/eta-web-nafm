@@ -7,6 +7,6 @@ export default class GrimReaperBoss extends Enemy {
         health: 50,
         armor: 8,
         attack: 12
-    }
+    };
     public xp = 30;
 }

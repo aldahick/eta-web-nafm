@@ -7,6 +7,6 @@ export default class Wolf extends Enemy {
         health: 16,
         armor: 0,
         attack: 6
-    }
+    };
     public xp = 14;
 }

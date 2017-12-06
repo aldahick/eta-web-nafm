@@ -7,6 +7,6 @@ export default class Orc extends Enemy {
         health: 24,
         armor: 5,
         attack: 9
-    }
+    };
     public xp = 19;
 }

@@ -7,6 +7,6 @@ export default class MindFlayerBoss extends Enemy {
         health: 50,
         armor: 10,
         attack: 14
-    }
+    };
     public xp = 30;
 }

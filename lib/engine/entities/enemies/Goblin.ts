@@ -7,6 +7,6 @@ export default class Goblin extends Enemy {
         health: 20,
         armor: 5,
         attack: 7
-    }
+    };
     public xp = 17;
 }

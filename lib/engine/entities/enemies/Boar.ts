@@ -7,6 +7,6 @@ export default class Boar extends Enemy {
         health: 16,
         armor: 5,
         attack: 5
-    }
+    };
     public xp = 14;
 }

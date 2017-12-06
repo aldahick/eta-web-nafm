@@ -7,6 +7,6 @@ export default class Skeleton extends Enemy {
         health: 24,
         armor: 0,
         attack: 10
-    }
+    };
     public xp = 19;
 }

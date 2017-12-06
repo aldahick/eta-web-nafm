@@ -7,6 +7,6 @@ export default class Ghost extends Enemy {
         health: 20,
         armor: 0,
         attack: 8
-    }
+    };
     public xp = 17;
 }

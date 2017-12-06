@@ -7,6 +7,6 @@ export default class GiantBoss extends Enemy {
         health: 50,
         armor: 12,
         attack: 14
-    }
+    };
     public xp = 30;
 }

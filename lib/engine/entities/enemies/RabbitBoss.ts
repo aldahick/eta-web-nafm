@@ -7,6 +7,6 @@ export default class RabbitBoss extends Enemy {
         health: 50,
         armor: 8,
         attack: 16
-    }
+    };
     public xp = 30;
 }

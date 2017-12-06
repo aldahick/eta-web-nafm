@@ -7,6 +7,6 @@ export default class Rat extends Enemy {
         health: 8,
         armor: 5,
         attack: 1
-    }
+    };
     public xp = 4;
 }
