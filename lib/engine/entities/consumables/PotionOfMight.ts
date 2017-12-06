@@ -9,8 +9,8 @@ export default class PotionOfMight extends Consumable {
         this.char = ">";
         this.color = "#1AFF1A";
     }
+    public consume(player: Player){
+        player.stats.attack += 2;
 
-    public consume(player: Player) {
-        player.stats.attack += 3;
     }
 }

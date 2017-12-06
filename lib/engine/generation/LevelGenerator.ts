@@ -113,7 +113,7 @@ export default class LevelGenerator {
     private getPoint(limiter: number, check: number): number {
         let coord: number;
         do {
-            coord = eta._.random(limiter / 3, 2 * limiter / 3);
+            coord = Math.round(eta._.random(limiter / 3, 2 * limiter / 3));
         } while (coord === check );
         return coord;
     }

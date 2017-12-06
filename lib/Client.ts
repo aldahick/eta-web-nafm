@@ -43,6 +43,8 @@ export default class Client {
                 this.server.sendRender();
             });
         }
+        this.player.on("consumed", (item: engine.Consumable) => {
+            this.server.sendChat("System", item.message, "white");
         this.player.on("combat-attack", (e1, e2) => this.onCombat(e1, e2));
         this.player.on("combat-defend", (e1, e2) => this.onCombat(e2, e1));
         this.player.on("killed", (killer: engine.Entity) => {
@@ -53,8 +55,6 @@ export default class Client {
             this.socket.emit("killed");
             this.socket.disconnect();
         });
-        this.player.on("consumed", (consumable: engine.Consumable) => {
-            this.server.sendChat("System", consumable.message, "white");
         });
         this.socket.emit("ready", { id: this.player.id, isNew });
         this.server.sendRender();
