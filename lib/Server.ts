@@ -4,7 +4,6 @@ import * as generateMaze from "generate-maze";
 import * as session from "express-session";
 import ChatMessage from "./ChatMessage";
 import Client from "./Client";
-import * as LevelGenerator from "./engine/generation/LevelGenerator";
 
 let instance: Server;
 
@@ -43,7 +42,7 @@ export class Server {
     }
 
     private generateMap(): void {
-        const generator = new LevelGenerator.default();
+        const generator = new engine.LevelGenerator();
         generator.generateRooms(new engine.Vector2(200, 50), 4)
             .forEach(wall => this.game.level.addEntity(wall));
     }
