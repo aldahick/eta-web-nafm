@@ -3,6 +3,7 @@ import Direction from "./Direction";
 import Level from "./Level";
 import Vector2 from "./Vector2";
 
+
 export default class Entity extends events.EventEmitter {
     private static lastId = 0;
     public id: number;
@@ -24,7 +25,7 @@ export default class Entity extends events.EventEmitter {
         else if (direction === Direction.Down) tempPosition.y++;
         else if (direction === Direction.Left) tempPosition.x--;
         else if (direction === Direction.Right) tempPosition.x++;
-        if (this.level.entities.find(e => e.position.equals(tempPosition)) !== undefined) return false;
+        if (this.level.entities.find(e => e.position.equals(tempPosition) && !(e instanceof Consumable)) !== undefined) return false;
         this.position = tempPosition;
         if (this.checkBoundaries()) return false;
         return true;
@@ -51,3 +52,4 @@ export default class Entity extends events.EventEmitter {
 }
 
 import Wall from "./entities/Wall";
+import Consumable from "./entities/Consumable";
