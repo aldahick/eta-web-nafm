@@ -57,6 +57,9 @@ export default class Client {
             this.socket.emit("killed");
             this.socket.disconnect();
         });
+        this.player.on("consumed", (consumable: engine.Consumable) => {
+            this.server.sendChat("System", consumable.message, "white");
+        });
         this.socket.emit("ready", { id: this.player.id, isNew });
         this.server.sendRender();
     }

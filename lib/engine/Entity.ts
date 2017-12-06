@@ -55,7 +55,7 @@ export default class Entity extends events.EventEmitter {
         else if (direction === Direction.Down) desiredPosition.y++;
         else if (direction === Direction.Left) desiredPosition.x--;
         else if (direction === Direction.Right) desiredPosition.x++;
-        if (this.level.entities.find(e => e.position.equals(desiredPosition)) !== undefined) {
+        if (this.level.entities.find(e => e.position.equals(desiredPosition) && !(e instanceof Consumable)) !== undefined) {
             return {
                 result: false,
                 desiredPosition
@@ -95,3 +95,4 @@ export default class Entity extends events.EventEmitter {
 }
 
 import Wall from "./entities/Wall";
+import Consumable from "./entities/Consumable";

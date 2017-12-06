@@ -13,7 +13,7 @@ export default class Player extends Entity {
     public stats = {
         health: 10,
         maxHealth: 10,
-        armor: 2,
+        armor: 10,
         attack: 4
     };
     public movesLeft = 0;
@@ -37,6 +37,8 @@ export default class Player extends Entity {
         }
         this.level.entities.filter(e => e instanceof Enemy).forEach((e: Enemy) => e.update());
         this.movesLeft--;
+        const consumable = this.level.getEntityAt(this.position);
+        if (consumable) consumable.emit("consume", this);
         return result;
     }
 
