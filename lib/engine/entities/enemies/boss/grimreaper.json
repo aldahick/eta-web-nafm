@@ -4,7 +4,7 @@
   "stats": {
     "health": 50,
     "armor": 8,
-    "attack": 15
-  },
-  "xp": 30
+    "attack": 15,
+    "xp": 30
+  }
 }
