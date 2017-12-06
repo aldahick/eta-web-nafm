@@ -6,7 +6,7 @@ import * as _ from "lodash";
 import * as eta from "../../eta";
 
 export default class Level extends events.EventEmitter {
-    public size: Vector2 = new Vector2(200, 50);
+    public size: Vector2 = new Vector2(100, 50);
     public entities: Entity[] = [];
 
     public get players(): Player[] {

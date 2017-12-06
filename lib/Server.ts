@@ -35,15 +35,11 @@ export class Server {
         const client = new Client(this, socket);
         this.clients.push(client);
         await client.setup();
-        if (this.clients.length === 1) {
-            client.player.inTurn = true;
-            client.player.movesLeft = engine.Player.MOVES_PER_TURN;
-        }
     }
 
     private generateMap(): void {
         const generator = new engine.LevelGenerator();
-        generator.generateRooms(new engine.Vector2(200, 50), 4)
+        generator.generateRooms(new engine.Vector2(100, 50), 4)
             .forEach(wall => this.game.level.addEntity(wall));
         this.game.level.on("entity-add", (entity: engine.Entity) => {
             if (entity instanceof engine.Enemy) {
@@ -52,9 +48,6 @@ export class Server {
                 });
             }
         });
-        this.game.level.addEntity(new engine.Skeleton({
-            position: new engine.Vector2(7, 1)
-        }));
     }
 
     public sendRender(): void {
