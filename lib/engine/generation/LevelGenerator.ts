@@ -15,13 +15,28 @@ export default class LevelGenerator {
         const map: Room = {
             position: new Vector2(0, 0),
             size: size.clone(),
-            isVertical: false,
-            doorCoord: undefined
+            door: undefined
         };
         const tree: Tree = this.buildTree(map, iterations);
         this.generateEntities(tree);
         this.addBoundaries(map);
+        this.fixDoors(tree);
         return this.walls;
+    }
+
+    private fixDoors(tree: Tree): void {
+        const room: Room = tree.leaf;
+        eta.logger.json(room);
+        if (room.door) {
+            for (let i = 0; i < this.walls.length; i ++) {
+                const wall: Wall = this.walls[i];
+                if (wall.position.x == room.door.x && wall.position.y == room.door.y) {
+                    this.walls.splice(i, 1);
+                }
+            }
+        }
+        if (tree.right) this.fixDoors(tree.right);
+        if (tree.left) this.fixDoors(tree.left);
     }
 
     private buildTree(container: Room, iterator: number): Tree {
@@ -44,28 +59,24 @@ export default class LevelGenerator {
         if (Math.random() > 0.5) { // vertical
             roomA = {
                 position: room.position.clone(),
-                size: new Vector2(Math.round(this.getPoint(room.size.x, room.doorCoord)), room.size.y),
-                isVertical: true,
-                doorCoord: undefined
+                size: (room.door) ? new Vector2(Math.round(this.getPoint(room.size.x, room.door.x)), room.size.y) : new Vector2(Math.round(this.getPoint(room.size.x, undefined)), room.size.y),
+                door: undefined
             };
             roomB = {
                 position: new Vector2(room.position.x + roomA.size.x, room.position.y),
                 size: new Vector2(room.size.x - roomA.size.x, room.size.y),
-                isVertical: true,
-                doorCoord: eta._.random(Math.round(roomA.size.y / 3), Math.round(2 * roomA.size.y / 3))
+                door: new Vector2(room.position.x + roomA.size.x, eta._.random(Math.round((roomA.position.y + 2)), Math.round((roomA.position.y + roomA.size.y - 2))))
             };
         } else { // horizontal
             roomA = {
                 position: room.position.clone(),
-                size: new Vector2(room.size.x, Math.round(this.getPoint(room.size.y, room.doorCoord))),
-                isVertical: false,
-                doorCoord: undefined
+                size: (room.door) ? new Vector2(room.size.x, Math.round(this.getPoint(room.size.y, room.door.y))) : new Vector2(room.size.x, Math.round(this.getPoint(room.size.y, undefined))),
+                door: undefined
             };
             roomB = {
                 position: new Vector2(room.position.x, room.position.y + roomA.size.y),
                 size: new Vector2(room.size.x, room.size.y - roomA.size.y),
-                isVertical: false,
-                doorCoord: eta._.random(Math.round(roomA.size.x / 3), Math.round(2 * roomA.size.x / 3))
+                door: new Vector2(eta._.random(Math.round(roomA.position.x + 2), Math.round((roomA.position.x + roomA.size.x - 2))), room.position.y + roomA.size.y)
             };
         }
         return [roomA, roomB];
@@ -93,7 +104,7 @@ export default class LevelGenerator {
         let coord: number;
         do {
             coord = eta._.random(limiter / 3, 2 * limiter / 3);
-        } while (coord === check);
+        } while (coord === check );
         return coord;
     }
 }
