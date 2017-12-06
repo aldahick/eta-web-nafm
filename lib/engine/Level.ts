@@ -1,4 +1,5 @@
 import Entity from "./Entity";
+import Player from "./entities/Player";
 import Vector2 from "./Vector2";
 import * as _ from "lodash";
 import * as eta from "../../eta";
