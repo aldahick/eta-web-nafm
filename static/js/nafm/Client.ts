@@ -34,7 +34,6 @@ export default class ClientGame {
         this.socket.on("render", this.onRender.bind(this));
         this.socket.on("stats", this.onStats.bind(this));
         this.socket.on("chat", this.onChat.bind(this));
-        this.socket.on("killed", this.onKilled.bind(this));
     }
 
     public onRender(renderedMap: string[][]): void {
@@ -74,11 +73,6 @@ export default class ClientGame {
         const timestamp: string = moment(msg.timestamp).format("hh:mm a");
         output.innerHTML += `(${timestamp}) &lt;<span style="color: ${msg.color};">${msg.name}</span>&gt; ${msg.message}\n`;
         $(output).scrollTop($(output).prop("scrollHeight"));
-    }
-
-    public onKilled(): void {
-        // this.socket.disconnect();
-        alert("You have died. The end!");
     }
 
     private onKeyPress(evt: JQuery.Event): void {

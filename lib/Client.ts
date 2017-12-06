@@ -4,6 +4,7 @@ import { Server } from "./Server";
 
 export default class Client {
     public player: engine.Player;
+    private hasReset = false;
     private server: Server;
     public socket: SocketIO.Socket & {
         handshake: {
@@ -39,34 +40,38 @@ export default class Client {
             await eta.session.save(this.socket.handshake.session);
             this.socket.on("name", (name: string) => {
                 this.player.name = name;
-                this.server.sendChat("System", `${this.player.coloredName} joined.`, "white");
+                this.server.sendChat("System", `${this.player.coloredName} ${this.hasReset ? "respawned" : "joined"}.`, "white");
                 this.server.sendRender();
             });
         }
         this.player.on("consumed", (item: engine.Consumable) => {
             this.server.sendChat("System", item.message, "white");
+        });
         this.player.on("combat-attack", (e1, e2) => this.onCombat(e1, e2));
         this.player.on("combat-defend", (e1, e2) => this.onCombat(e2, e1));
         this.player.on("killed", (killer: engine.Entity) => {
             this.server.sendChat("System", `${killer.char} killed ${this.player.coloredName}.`, "white");
-            this.sendChat("System", "You have been disconnected from the server because you died.", "red");
-            this.socket.handshake.session.nafmServerUID = undefined;
-            this.socket.handshake.session.save(() => {});
-            this.socket.emit("killed");
-            this.socket.disconnect();
-        });
+            this.reset().catch(err => eta.logger.error(err));
         });
         this.socket.emit("ready", { id: this.player.id, isNew });
         this.server.sendRender();
     }
 
     public sendChat(name: string, message: string, color: string, auto = false): void {
-        if (this.player.isHidden) return;
         this.socket.emit("chat", this.server.buildChatMessage(name, message, color, auto));
     }
 
+    public async reset(): Promise<void> {
+        this.hasReset = true;
+        this.socket.removeAllListeners();
+        this.socket.emit("reset");
+        this.socket.handshake.session.nafmId = undefined;
+        this.player = undefined;
+        await eta.session.save(this.socket.handshake.session);
+        await this.setup();
+    }
+
     private onChat(message: string): void {
-        if (this.player.isHidden) return;
         this.server.sendChat(this.player.name, eta._.escape(message), this.player.color);
     }
 
@@ -82,7 +87,6 @@ export default class Client {
     }
 
     private onMove(direction: engine.Direction): void {
-        if (this.player.isHidden) return;
         if (!this.player.move(direction)) return;
         this.server.sendRender();
         this.server.sendChat("System", `${this.player.coloredName} moved ${engine.Direction[direction].toLowerCase()}.`, "white", true);

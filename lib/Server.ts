@@ -55,7 +55,7 @@ export class Server {
         this.io.emit("render", this.game.level.buildRender());
         this.clients.forEach(c => {
             if (c.socket.disconnected) return;
-            if (c.player.name) c.socket.emit("stats", c.player.getStats());
+            if (c.player && c.player.name) c.socket.emit("stats", c.player.getStats());
         });
     }
 
