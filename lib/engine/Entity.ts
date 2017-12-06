@@ -30,8 +30,8 @@ export default class Entity extends events.EventEmitter {
         }
         if (eta._.random(0, 20) > target.stats.armor) {
             target.stats.health -= this.stats.attack;
-            this.emit("combat-attack", target);
-            target.emit("combat-defend", this);
+            this.emit("combat-attack", target, this);
+            target.emit("combat-defend", this, target);
             if (target.stats.health <= 0) {
                 target.kill(this);
                 return;

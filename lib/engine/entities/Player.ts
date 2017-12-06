@@ -13,11 +13,9 @@ export default class Player extends Entity {
     public stats = {
         health: 10,
         maxHealth: 10,
-        armor: 10,
+        armor: 4,
         attack: 4
     };
-    public movesLeft = 0;
-    public inTurn = false;
 
     public get coloredName(): string {
         return `<span style="color: ${this.color};">${this.name}</span>`;
@@ -27,7 +25,6 @@ export default class Player extends Entity {
         result: boolean;
         desiredPosition: Vector2;
     } {
-        if (!this.inTurn) return { result: false, desiredPosition: undefined };
         const result = super.move(direction);
         if (!result.result) {
             const enemy = this.level.getEntityAt(result.desiredPosition);
@@ -36,7 +33,6 @@ export default class Player extends Entity {
             return result;
         }
         this.level.entities.filter(e => e instanceof Enemy).forEach((e: Enemy) => e.update());
-        this.movesLeft--;
         const consumable = this.level.getEntityAt(this.position);
         if (consumable) consumable.emit("consume", this);
         return result;

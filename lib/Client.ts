@@ -43,12 +43,8 @@ export default class Client {
                 this.server.sendRender();
             });
         }
-        this.player.on("combat-attack", (target: engine.Entity) => {
-            this.server.sendChat("System", `${this.player.coloredName} hit ${target.char} for ${this.player.stats.attack}. (${target.stats.health} HP left)`, "white");
-        });
-        this.player.on("combat-defend", (against: engine.Entity) => {
-            this.server.sendChat("System", `${against.char} hit ${this.player.coloredName} for ${against.stats.attack}. (${this.player.stats.health} HP left)`, "white");
-        });
+        this.player.on("combat-attack", (e1, e2) => this.onCombat(e1, e2));
+        this.player.on("combat-defend", (e1, e2) => this.onCombat(e2, e1));
         this.player.on("killed", (killer: engine.Entity) => {
             this.server.sendChat("System", `${killer.char} killed ${this.player.coloredName}.`, "white");
             this.sendChat("System", "You have been disconnected from the server because you died.", "red");
@@ -79,26 +75,16 @@ export default class Client {
         this.server.sendRender();
     }
 
+    private onCombat(attacker: engine.Entity, defender: engine.Entity) {
+        const attackerName = (attacker instanceof engine.Player) ? attacker.coloredName : attacker.char;
+        const defenderName = (defender instanceof engine.Player) ? defender.coloredName : defender.char;
+        this.server.sendChat("System", `${attackerName} hit ${defenderName} for ${attacker.stats.attack}. (${defender.stats.health} HP left)`, "white");
+    }
+
     private onMove(direction: engine.Direction): void {
         if (this.player.isHidden) return;
         if (!this.player.move(direction)) return;
         this.server.sendRender();
         this.server.sendChat("System", `${this.player.coloredName} moved ${engine.Direction[direction].toLowerCase()}.`, "white", true);
-        if (this.player.movesLeft <= 0) {
-            this.player.inTurn = false;
-            this.onTurnEnd();
-        }
-    }
-
-    private onTurnEnd(): void {
-        if (this.player.isHidden) return;
-        const index = this.server.game.level.entities.findIndex(e => e.id === this.player.id);
-        const newIndex = eta._.range(index + 1, this.server.game.level.entities.length).concat(eta._.range(0, index + 1)).find(i => {
-            return this.server.game.level.entities[i] instanceof engine.Player;
-        });
-        const newPlayer = <engine.Player>this.server.game.level.entities[newIndex];
-        newPlayer.inTurn = true;
-        newPlayer.movesLeft = engine.Player.MOVES_PER_TURN;
-        this.server.sendChat("System", `It is now ${newPlayer.coloredName}'s turn.`, "white", true);
     }
 }
