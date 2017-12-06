@@ -1,14 +1,15 @@
 import io from "socket.io-client";
 import moment from "moment";
 import ChatMessage from "../../../lib/ChatMessage";
+import HelperText from "nafm/helpers/text.js";
 
 export default class ClientGame {
+    private entityId: number;
     private color: string;
-    private renderedMap: string[][];
     private socket: SocketIOClient.Socket;
 
     public constructor() {
-        $(document.body).on("keypress", this.onKeyPress.bind(this));
+        $(document.body).on("keydown", this.onKeyPress.bind(this));
         (<any>window).game = this;
     }
 
@@ -16,13 +17,21 @@ export default class ClientGame {
         this.socket = io({
             path: "/socket.io/hicks-web-nafm"
         });
+        this.socket.on("ready", (evt: {
+            isNew: boolean;
+            id: number;
+        }) => {
+            this.entityId = evt.id;
+            if (evt.isNew) {
+                this.socket.emit("name", prompt("What's your name?"));
+            }
+        });
         this.socket.on("render", this.onRender.bind(this));
         this.socket.on("chat", this.onChat.bind(this));
     }
 
     public onRender(renderedMap: string[][]): void {
-        this.renderedMap = renderedMap;
-        $("#canvas").html(this.renderedMap.map(r => r.join("")).join("\n"));
+        $("#canvas").html(renderedMap.map(r => r.join("")).join("\n"));
     }
 
     public onChat(msg: ChatMessage): void {
@@ -30,9 +39,7 @@ export default class ClientGame {
         const output: HTMLElement = document.getElementById("chat-output");
         const timestamp: string = moment(msg.timestamp).format("hh:mm a");
         output.innerHTML += `(${timestamp}) &lt;<span style="color: ${msg.color};">${msg.name}</span>&gt; ${msg.message}\n`;
-        $(output).animate({
-            scrollTop: $(output).prop("scrollHeight")
-        }, 200);
+        $(output).scrollTop($(output).prop("scrollHeight"));
     }
 
     private onKeyPress(evt: JQuery.Event): void {
@@ -43,7 +50,9 @@ export default class ClientGame {
             }
             return;
         }
-        evt.which -= 32; // fix capital letter offset because JAVASCRIPT
+        if ((<KeyboardEvent>evt.originalEvent).repeat) {
+            return;
+        }
         let direction: Direction;
         if (evt.which === JQuery.Key.ArrowUp || evt.which === JQuery.Key.W) direction = Direction.Up;
         if (evt.which === JQuery.Key.ArrowDown || evt.which === JQuery.Key.S) direction = Direction.Down;

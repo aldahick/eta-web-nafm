@@ -16,9 +16,7 @@ export default class Level {
         const rows: string[][] = new Array(this.size.y).fill(0).map(r => new Array(this.size.x).fill("."));
         this.entities.filter(e => !e.isHidden).forEach(e => {
             let render: string = e.char;
-            if (e.color) {
-                render = `<span style="color: ${e.color};">${e.char}</span>`;
-            }
+            render = `<span id="entity-${e.id}" style="color: ${e.color};">${e.char}</span>`;
             rows[e.position.y][e.position.x] = render;
         });
         return rows;

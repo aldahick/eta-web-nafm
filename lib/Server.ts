@@ -8,12 +8,14 @@ import Client from "./Client";
 let instance: Server;
 
 export class Server {
+    public uid: string;
     public chatMessages: ChatMessage[] = [];
     public game: engine.Game;
     public io: SocketIO.Server;
 
     public constructor(io: SocketIO.Server) {
         instance = this;
+        this.uid = eta.crypto.generateSalt();
         this.game = new engine.Game();
         this.generateMap();
         this.io = io;
@@ -48,6 +50,7 @@ export class Server {
             message, color, name, auto,
             timestamp: new Date(),
         });
+        if (!auto) eta.logger.trace(`<${name}> ${message}`);
         this.io.emit("chat", this.chatMessages[this.chatMessages.length - 1]);
         this.chatMessages = this.chatMessages.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
     }

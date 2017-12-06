@@ -8,7 +8,7 @@ export default class Entity {
     public level: Level;
     public position: Vector2;
     public char: string;
-    public color: string;
+    public color = "white";
 
     public constructor(init: Partial<Entity>) {
         Object.assign(this, init);

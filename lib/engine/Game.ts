@@ -42,7 +42,7 @@ export default class Game {
         if (index !== -1) this.level.entities.splice(index, 1);
     }
 
-    public findEntity(id: number): Entity {
-        return this.level.entities.find(e => e.id === id);
+    public findPlayer(id: number): Player {
+        return <Player>this.level.entities.find(e => e instanceof Player && e.playerId === id);
     }
 }
