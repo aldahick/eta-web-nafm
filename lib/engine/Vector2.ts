@@ -59,11 +59,15 @@ export default class Vector2 {
         return `(${this.x}, ${this.y})`;
     }
 
-    public calculate(other: Vector2 | number, transform: (a: number, b: number) => number): Vector2 {
+    public calculate(other: Vector2 | number, worker: (a: number, b: number) => number): Vector2 {
         if (typeof(other) === "number") {
-            return new Vector2(transform(this.x, other), transform(this.y, other));
+            return new Vector2(worker(this.x, other), worker(this.y, other));
         } else {
-            return new Vector2(transform(this.x, other.x), transform(this.y, other.y));
+            return new Vector2(worker(this.x, other.x), worker(this.y, other.y));
         }
+    }
+
+    public transform(worker: (value: number) => number): Vector2 {
+        return new Vector2(worker(this.x), worker(this.y));
     }
 }
