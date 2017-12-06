@@ -36,13 +36,6 @@
       "dirs": [
         "lib"
       ]
-    },
-    {
-      "filename": "static/js/nafm/engine.ts",
-      "type": "export",
-      "dirs": [
-        "lib/engine"
-      ]
     }
   ],
   "hooks": {}

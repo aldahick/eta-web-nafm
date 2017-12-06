@@ -1,9 +1,10 @@
 import Entity from "./Entity";
 import Vector2 from "./Vector2";
 import * as _ from "lodash";
+import * as eta from "../../eta";
 
 export default class Level {
-    public size: Vector2 = new Vector2(16, 8);
+    public size: Vector2 = new Vector2(200, 50);
     public entities: Entity[] = [];
 
     public addEntity(entity: Entity): void {

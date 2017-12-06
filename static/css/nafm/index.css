@@ -2,4 +2,27 @@
     font-family: monospace;
     background-color: black;
     color: white;
+    line-height: 1;
+}
+
+#chat-container {
+    font-family: monospace;
+    color: white;
+}
+
+#chat-output {
+    max-height: 80%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    white-space: pre-wrap;
+    background-color: black;
+}
+
+#chat-input {
+    background-color: black;
+    color: white;
+}
+
+#chat-input::placeholder {
+    color: white;
 }

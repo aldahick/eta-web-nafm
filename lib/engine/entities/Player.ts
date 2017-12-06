@@ -3,6 +3,7 @@ import Entity from "../Entity";
 
 export default class Player extends Entity {
     public char = "@";
+    public flags: {[key: string]: any} = {};
 
     public move(direction: Direction): void {
         if (direction === Direction.Up) this.position.y--;
