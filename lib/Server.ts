@@ -18,9 +18,10 @@ export class Server {
         instance = this;
         this.uid = eta.crypto.generateSalt();
         this.game = new engine.Game();
-        this.generateMap();
         this.io = io;
         this.io.on("connection", socket => this.onConnect(<any>socket).catch(err => eta.logger.error(err)));
+        engine.Enemy.load().then(() => this.generateMap())
+            .catch(err => eta.logger.error(err));
     }
 
     public close(): void {
