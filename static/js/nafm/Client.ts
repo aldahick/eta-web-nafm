@@ -78,6 +78,7 @@ export default class ClientGame {
             }
             return;
         }
+        if ((<KeyboardEvent>evt.originalEvent).repeat) return;
         let direction: engine.Direction;
         if (evt.which === JQuery.Key.ArrowUp || evt.which === JQuery.Key.W) direction = engine.Direction.Up;
         if (evt.which === JQuery.Key.ArrowDown || evt.which === JQuery.Key.S) direction = engine.Direction.Down;
