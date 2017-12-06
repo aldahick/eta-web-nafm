@@ -59,7 +59,7 @@ export default class LevelGenerator {
         if (Math.random() > 0.5) { // vertical
             roomA = {
                 position: room.position.clone(),
-                size: new Vector2(Math.round(this.getPoint(room.size.x, room.door ? room.door.x : undefined)), room.size.y),
+                size: new Vector2(Math.round(this.getPoint(room.size.x, room.door ? room.door.y : undefined)), room.size.y),
                 door: undefined
             };
             roomB = {
@@ -75,7 +75,7 @@ export default class LevelGenerator {
         } else { // horizontal
             roomA = {
                 position: room.position.clone(),
-                size: new Vector2(room.size.x, Math.round(this.getPoint(room.size.y, room.door ? room.door.y : undefined))),
+                size: new Vector2(room.size.x, (this.getPoint(room.size.y, room.door ? room.door.x : undefined))),
                 door: undefined
             };
             roomB = {
@@ -114,7 +114,8 @@ export default class LevelGenerator {
         let coord: number;
         do {
             coord = Math.round(eta._.random(limiter / 3, 2 * limiter / 3));
-        } while (coord === check );
+            if(check) eta.logger.trace(coord.toString() + " " + check.toString());
+        } while (coord == check || coord == check+1 || coord == check-1);
         return coord;
     }
 }

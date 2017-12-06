@@ -40,7 +40,7 @@ export class Server {
 
     private generateMap(): void {
         const generator = new engine.LevelGenerator();
-        generator.generateRooms(new engine.Vector2(200, 50), 4)
+        generator.generateRooms(new engine.Vector2(100, 50), 4)
             .forEach(wall => this.game.level.addEntity(wall));
         this.game.level.on("entity-add", (entity: engine.Entity) => {
             if (entity instanceof engine.Enemy) {
@@ -49,9 +49,6 @@ export class Server {
                 });
             }
         });
-        this.game.level.addEntity(engine.Enemy.create("bat", {
-            position: new engine.Vector2(7, 1)
-        }));
     }
 
     public sendRender(): void {

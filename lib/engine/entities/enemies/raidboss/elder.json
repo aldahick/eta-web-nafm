@@ -1,0 +1,10 @@
+{
+  "char": "E",
+  "color": ["darkgreen", "darkorange", "yellowgreen", "rebeccapurple"],
+  "stats": {
+    "health": 120,
+    "armor": 18,
+    "attack": 14
+  },
+  "xp": 60
+}

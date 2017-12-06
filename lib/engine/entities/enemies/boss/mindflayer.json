@@ -1,0 +1,10 @@
+{
+  "char": "M",
+  "color": "mediumorchid",
+  "stats": {
+    "health": 50,
+    "armor": 10,
+    "attack": 14
+  },
+  "xp": 30
+}

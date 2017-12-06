@@ -1,0 +1,10 @@
+{
+  "char": "s",
+  "color": "yellow",
+  "stats": {
+    "health": 12,
+    "armor": 5,
+    "attack": 3
+  },
+  "xp": 9
+}

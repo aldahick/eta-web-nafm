@@ -1,0 +1,10 @@
+{
+  "char": "W",
+  "color": ["whitesmoke", "redorange", "aqua", "sienna", "slategrey"],
+  "stats": {
+    "health": 120,
+    "armor": 16,
+    "attack": 14
+  },
+  "xp": 60
+}
