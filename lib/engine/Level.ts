@@ -7,6 +7,10 @@ export default class Level {
     public size: Vector2 = new Vector2(200, 50);
     public entities: Entity[] = [];
 
+    public get players(): Player[] {
+        return <Player[]>this.entities.filter(e => e instanceof Player);
+    }
+
     public addEntity(entity: Entity): void {
         entity.level = this;
         this.entities.push(entity);
