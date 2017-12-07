@@ -50,7 +50,7 @@ export default class Client {
         this.player.on("combat-attack", (e1, e2) => this.onCombat(e1, e2));
         this.player.on("combat-defend", (e1, e2) => this.onCombat(e2, e1));
         this.player.on("killed", (killer: engine.Entity) => {
-            this.server.sendChat("System", `${killer.char} killed ${this.player.coloredName}.`, "white");
+            this.server.sendChat("System", `${(killer instanceof engine.Player) ? killer.coloredName : killer.char} killed ${this.player.coloredName}.`, "white");
             this.reset().catch(err => eta.logger.error(err));
         });
         this.socket.emit("ready", { id: this.player.id, isNew });

@@ -26,9 +26,8 @@ export default class Entity extends events.EventEmitter {
     }
 
     public attack(target: Entity): void {
-        if (!target.stats) {
-            return;
-        }
+        if (!target.stats) return;
+        if (target instanceof Player && !(<Player>target).name) return;
         if (eta._.random(0, 20) > target.stats.armor) {
             ((<any>target)._stats || target.stats).health -= this.stats.attack;
             this.emit("combat-attack", target, this);
@@ -96,5 +95,6 @@ export default class Entity extends events.EventEmitter {
     }
 }
 
-import Wall from "./entities/Wall";
 import Consumable from "./entities/Consumable";
+import Player from "./entities/Player";
+import Wall from "./entities/Wall";
