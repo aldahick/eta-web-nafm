@@ -6,22 +6,12 @@ export default class Client {
     public player: engine.Player;
     private hasReset = false;
     private server: Server;
-    public socket: SocketIO.Socket & {
-        handshake: {
-            session: Express.Session
-        }
-    };
+    private color: string;
+    public socket: SocketIO.Socket;
 
-    public constructor(server: Server, socket: SocketIO.Socket & {
-        handshake: {
-            session: Express.Session
-        }
-    }) {
+    public constructor(server: Server, socket: SocketIO.Socket) {
         this.server = server;
         this.socket = socket;
-        if (socket.handshake.session.nafmServerUID === this.server.uid) {
-            this.player = this.server.game.findPlayer(socket.handshake.session.nafmId);
-        }
     }
 
     public async setup(): Promise<void> {
@@ -29,21 +19,14 @@ export default class Client {
         this.socket.on("disconnect", this.onDisconnect.bind(this));
         this.socket.on("move", this.onMove.bind(this));
         this.server.chatMessages.forEach(msg => this.socket.emit("chat", msg));
-        const isNew: boolean = !(this.player && this.player.name);
-        if (this.player) {
-            this.player.isHidden = false;
-            this.server.sendChat("System", `${this.player.coloredName} reconnected.`, "white");
-        } else {
-            this.player = this.server.game.addPlayer();
-            this.socket.handshake.session.nafmId = this.player.playerId;
-            this.socket.handshake.session.nafmServerUID = this.server.uid;
-            await eta.session.save(this.socket.handshake.session);
-            this.socket.on("name", (name: string) => {
-                this.player.name = name || "Unknown Player";
-                this.server.sendChat("System", `${this.player.coloredName} ${this.hasReset ? "respawned" : "joined"}.`, "white");
-                this.server.sendRender();
-            });
-        }
+        this.player = this.server.game.addPlayer();
+        if (this.color) this.player.color = this.color;
+        else this.color = this.player.color;
+        this.socket.on("name", (name: string) => {
+            this.player.name = name || "Unknown Player";
+            this.server.sendChat("System", `${this.player.coloredName} ${this.hasReset ? "respawned" : "joined"}.`, "white");
+            this.server.sendRender();
+        });
         this.player.on("consumed", (item: engine.Consumable) => {
             this.server.sendChat("System", item.message, "white");
         });
@@ -53,7 +36,7 @@ export default class Client {
             this.server.sendChat("System", `${(killer instanceof engine.Player) ? killer.coloredName : killer.char} killed ${this.player.coloredName}.`, "white");
             this.reset().catch(err => eta.logger.error(err));
         });
-        this.socket.emit("ready", { id: this.player.id, isNew });
+        this.socket.emit("ready", { id: this.player.id });
         this.server.sendRender();
     }
 
@@ -65,9 +48,7 @@ export default class Client {
         this.hasReset = true;
         this.socket.removeAllListeners();
         this.socket.emit("reset");
-        this.socket.handshake.session.nafmId = undefined;
         this.player = undefined;
-        await eta.session.save(this.socket.handshake.session);
         await this.setup();
     }
 

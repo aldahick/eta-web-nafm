@@ -1,7 +1,6 @@
 import * as eta from "../eta";
 import * as engine from "./engine";
 import * as generateMaze from "generate-maze";
-import * as session from "express-session";
 import ChatMessage from "./ChatMessage";
 import Client from "./Client";
 
@@ -28,11 +27,7 @@ export class Server {
         this.io.close();
     }
 
-    private async onConnect(socket: SocketIO.Socket & {
-        handshake: {
-            session: Express.Session
-        }
-    }): Promise<void> {
+    private async onConnect(socket: SocketIO.Socket): Promise<void> {
         const client = new Client(this, socket);
         this.clients.push(client);
         await client.setup();

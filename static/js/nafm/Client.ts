@@ -8,7 +8,7 @@ import HelperText from "nafm/helpers/text.js";
 export default class ClientGame {
     private canvasSize: engine.Vector2;
     private entityId: number;
-    private color: string;
+    private name: string;
     private socket: SocketIOClient.Socket;
 
     public constructor() {
@@ -23,13 +23,13 @@ export default class ClientGame {
             path: "/socket.io/hicks-web-nafm"
         });
         this.socket.on("ready", (evt: {
-            isNew: boolean;
             id: number;
         }) => {
-            this.entityId = evt.id;
-            if (evt.isNew) {
-                this.socket.emit("name", prompt("What's your name?"));
+            if (!this.name) {
+                this.name = prompt("What's your name?");
             }
+            this.entityId = evt.id;
+            this.socket.emit("name", this.name);
         });
         this.socket.on("render", this.onRender.bind(this));
         this.socket.on("stats", this.onStats.bind(this));
