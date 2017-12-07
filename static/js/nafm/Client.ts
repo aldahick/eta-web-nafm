@@ -10,9 +10,10 @@ export default class ClientGame {
     private entityId: number;
     private name: string;
     private socket: SocketIOClient.Socket;
+    private lastKeyPressTime: number;
 
     public constructor() {
-        $(document.body).on("keydown", this.onKeyPress.bind(this));
+        $(document.body).on("keypress", this.onKeyPress.bind(this));
         (<any>window).game = this;
         const charWidth: number = HelperText.getTextWidth("#");
         this.canvasSize = new engine.Vector2($("#canvas").width() / charWidth, $("#canvas").height() / 13).transform(Math.floor);
@@ -84,7 +85,14 @@ export default class ClientGame {
             }
             return;
         }
-        if ((<KeyboardEvent>evt.originalEvent).repeat) return;
+        if ((<KeyboardEvent>evt.originalEvent).repeat) {
+            const now = Date.now();
+            if (now - this.lastKeyPressTime < 100) {
+                return;
+            }
+            this.lastKeyPressTime = now;
+        }
+        evt.which -= 32; // fix capital letters
         let direction: engine.Direction;
         if (evt.which === JQuery.Key.ArrowUp || evt.which === JQuery.Key.W) direction = engine.Direction.Up;
         if (evt.which === JQuery.Key.ArrowDown || evt.which === JQuery.Key.S) direction = engine.Direction.Down;
