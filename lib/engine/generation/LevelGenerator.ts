@@ -16,11 +16,6 @@ export default class LevelGenerator {
     public walls: Wall[] = [];
     public childRooms: Room[] = [];
     public map: Room;
-    private tier1Enemies: string[] = ["rat", "spider"];
-    private tier2Enemies: string[] = ["bat", "snake"];
-    private tier3Enemies: string[] = ["boar", "wolf"];
-    private tier4Enemies: string[] = ["ghost", "goblin"];
-    private tier5Enemies: string[] = ["orc", "skeleton", "zombie"];
     private bosses: string[] = ["giant", "grimreaper", "mindflayer", "rabbit"];
     private raidBosses: string[] = ["demon", "dragon", "elder", "elemental"];
 
@@ -44,57 +39,29 @@ export default class LevelGenerator {
             const seed: number = eta._.random(0, 4);
             for (let j = 0; j < seed; j++) {
                 const enemySeed: number = Math.random();
+                let tier: string[];
                 if (enemySeed >= .4) {
-                    enemies.push(this.generateNewEnemy(
-                        this.tier1Enemies,
-                        this.childRooms[i].position.x,
-                        this.childRooms[i].position.y,
-                        this.childRooms[i].position.x + this.childRooms[i].size.x,
-                        this.childRooms[i].position.y + this.childRooms[i].size.y,
-                    ));
+                    tier = ["rat", "spider"];
                 } else if (enemySeed >= .22  && enemySeed < .4) {
-                    enemies.push(this.generateNewEnemy(
-                        this.tier2Enemies,
-                        this.childRooms[i].position.x,
-                        this.childRooms[i].position.y,
-                        this.childRooms[i].position.x + this.childRooms[i].size.x,
-                        this.childRooms[i].position.y + this.childRooms[i].size.y,
-                    ));
+                    tier = ["bat", "snake"];
                 } else if (enemySeed >= .1 && enemySeed < .22) {
-                    enemies.push(this.generateNewEnemy(
-                        this.tier3Enemies,
-                        this.childRooms[i].position.x,
-                        this.childRooms[i].position.y,
-                        this.childRooms[i].position.x + this.childRooms[i].size.x,
-                        this.childRooms[i].position.y + this.childRooms[i].size.y,
-                    ));
+                    tier = ["boar", "wolf"];
                 } else if (enemySeed >= .04 && enemySeed < .1) {
-                    enemies.push(this.generateNewEnemy(
-                        this.tier4Enemies,
-                        this.childRooms[i].position.x,
-                        this.childRooms[i].position.y ,
-                        this.childRooms[i].position.x + this.childRooms[i].size.x,
-                        this.childRooms[i].position.y + this.childRooms[i].size.y,
-                    ));
+                    tier = ["ghost", "goblin"];
                 } else if (enemySeed >= 0 && enemySeed < .4) {
-                    enemies.push(this.generateNewEnemy(
-                        this.tier5Enemies,
-                        this.childRooms[i].position.x,
-                        this.childRooms[i].position.y,
-                        this.childRooms[i].position.x + this.childRooms[i].size.x,
-                        this.childRooms[i].position.y + this.childRooms[i].size.y,
-                    ));
+                    tier = ["orc", "skeleton", "zombie"];
                 }
+                enemies.push(this.generateNewEnemy(
+                    tier,
+                    this.childRooms[i].position.x,
+                    this.childRooms[i].position.y,
+                    this.childRooms[i].position.x + this.childRooms[i].size.x,
+                    this.childRooms[i].position.y + this.childRooms[i].size.y,
+                ));
             }
         }
-
         const bossSeed: number = Math.random();
-
-        if (bossSeed > .15) {
-            enemies.push(this.generateNewEnemy(this.bosses, this.map.size.x - 2, this.map.size.y - 2, this.map.size.x - 2, this.map.size.y - 2));
-        } else {
-            enemies.push(this.generateNewEnemy(this.raidBosses, this.map.size.x - 2, this.map.size.y - 2, this.map.size.x - 2, this.map.size.y - 2));
-        }
+        enemies.push(this.generateNewEnemy(Math.random() > 0.15 ? this.bosses : this.raidBosses, this.map.size.x - 2, this.map.size.y - 2, this.map.size.x - 2, this.map.size.y - 2));
         return enemies;
     }
 
