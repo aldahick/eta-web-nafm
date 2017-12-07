@@ -35,41 +35,26 @@ export default class LevelGenerator {
 
     public generateEnemies(): Enemy[] {
         const enemies: Enemy[] = [];
-        for (let i = 0; i < this.childRooms.length; i++) {
-            const seed: number = eta._.random(0, 4);
-            for (let j = 0; j < seed; j++) {
-                const enemySeed: number = Math.random();
+        for (const room of this.childRooms) {
+            eta._.range(0, eta._.random(0, 4)).forEach(_ => {
+                const seed: number = Math.random();
                 let tier: string[];
-                if (enemySeed >= .4) {
-                    tier = ["rat", "spider"];
-                } else if (enemySeed >= .22  && enemySeed < .4) {
-                    tier = ["bat", "snake"];
-                } else if (enemySeed >= .1 && enemySeed < .22) {
-                    tier = ["boar", "wolf"];
-                } else if (enemySeed >= .04 && enemySeed < .1) {
-                    tier = ["ghost", "goblin"];
-                } else if (enemySeed >= 0 && enemySeed < .4) {
-                    tier = ["orc", "skeleton", "zombie"];
-                }
-                enemies.push(this.generateNewEnemy(
-                    tier,
-                    this.childRooms[i].position.x,
-                    this.childRooms[i].position.y,
-                    this.childRooms[i].position.x + this.childRooms[i].size.x,
-                    this.childRooms[i].position.y + this.childRooms[i].size.y,
-                ));
-            }
+                if (seed >= 0.4) tier = ["rat", "spider"];
+                else if (seed >= 0.22  && seed < 0.4) tier = ["bat", "snake"];
+                else if (seed >= 0.1 && seed < 0.22) tier = ["boar", "wolf"];
+                else if (seed >= 0.04 && seed < 0.1) tier = ["ghost", "goblin"];
+                else if (seed >= 0 && seed < 0.4) tier = ["orc", "skeleton", "zombie"];
+                enemies.push(this.generateNewEnemy(tier, room.position, room.size));
+            });
         }
-        const bossSeed: number = Math.random();
-        enemies.push(this.generateNewEnemy(Math.random() > 0.15 ? this.bosses : this.raidBosses, this.map.size.x - 2, this.map.size.y - 2, this.map.size.x - 2, this.map.size.y - 2));
+        enemies.push(this.generateNewEnemy(Math.random() > 0.15 ? this.bosses : this.raidBosses, this.map.size.sub(2), new Vector2()));
         return enemies;
     }
 
-    public generateNewEnemy(tier: string[], startX: number, startY: number, endX: number, endY: number): Enemy {
-        const enemy: string = tier[Math.floor(Math.random() * tier.length)];
-        const randomX: number = eta._.random(startX + 2, endX) - 1;
-        const randomY: number = eta._.random(startY + 2 , endY) - 1;
-        return Enemy.create(enemy, {position: new Vector2(randomX, randomY)});
+    public generateNewEnemy(tier: string[], start: Vector2, size: Vector2): Enemy {
+        return Enemy.create(tier[eta._.random(0, tier.length - 1)], {
+            position: start.calculate(size, (s, e) => eta._.random(s + 2, s + e) - 1)
+        });
     }
 
     private findChildren(tree: Tree): void {
