@@ -200,7 +200,6 @@ export default class LevelGenerator {
         let coord: number;
         do {
             coord = Math.round(eta._.random(limiter / 3, 2 * limiter / 3));
-            if(check) eta.logger.trace(coord.toString() + " " + check.toString());
         } while (coord == check || coord == check+1 || coord == check-1);
         return coord;
     }
