@@ -1,9 +1,11 @@
 import * as eta from "../../../eta";
 import * as fs from "fs-extra";
+import * as aStar from "a-star";
 import Direction from "../Direction";
 import Entity from "../Entity";
 import Player from "./Player";
 import Vector2 from "../Vector2";
+import Wall from "./Wall";
 
 export default class Enemy extends Entity {
     public static definitions: {[key: string]: Partial<Enemy>} = {};
@@ -30,9 +32,7 @@ export default class Enemy extends Entity {
 
     public update(): void {
         if (!this.isTracking) {
-            const min = this.position.sub(5);
-            const max = this.position.add(5);
-            const targets = this.level.entities.filter(e => e instanceof Player && e.position.getLinearDistance(this.position) < 4);
+            const targets = this.level.entities.filter(e => e instanceof Player && e.position.getLinearDistance(this.position) < 6);
             if (targets.length === 0) return;
             this.target = targets.sort((a, b) => this.position.getLinearDistance(a.position) - this.position.getLinearDistance(b.position))[0];
         }
@@ -46,11 +46,24 @@ export default class Enemy extends Entity {
             eta.logger.warn("No path found!");
             return;
         }
-        this.move(this.position.getDirectionTo(path[0]));
+        this.move(this.position.getDirectionTo(path[1]));
     }
 
     public findPathToTarget(): Vector2[] {
-        return [this.target.position];
+        const result = aStar<Vector2>({
+            start: this.position,
+            isEnd: node => node.equals(this.target.position),
+            neighbor: node => node.getAdjacentCardinalPoints().filter(p => {
+                const entity: Entity = this.level.getEntityAt(p);
+                return (!entity) || !(entity instanceof Wall);
+            }),
+            distance: (a, b) => a.getLinePointsTo(b).length,
+            heuristic: node => node.getLinePointsTo(this.target.position).length,
+            hash: node => node.toString(),
+            timeout: 200
+        });
+        if (result.status !== "success") return undefined;
+        return result.path;
     }
 
     public static create(name: string, _init: Partial<Entity>): Enemy {

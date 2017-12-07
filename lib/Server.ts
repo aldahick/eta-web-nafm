@@ -40,7 +40,7 @@ export class Server {
         this.game.level.on("entity-add", (entity: engine.Entity) => {
             if (entity instanceof engine.Enemy) {
                 entity.on("killed", (killer: engine.Player) => {
-                    this.sendChat("Server", `${killer.coloredName} killed ${entity.char}.`, "white");
+                    this.sendChat("Server", `${killer.coloredName} killed ${entity.coloredName}.`, "white");
                 });
             }
         });
