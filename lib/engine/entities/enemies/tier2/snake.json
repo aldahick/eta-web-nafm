@@ -1,4 +1,5 @@
 {
+  "name": "Snake",
   "char": "s",
   "color": "yellow",
   "stats": {

@@ -1,4 +1,5 @@
 {
+  "name": "Elemental",
   "char": "W",
   "color": ["whitesmoke", "redorange", "aqua", "sienna", "slategrey"],
   "stats": {

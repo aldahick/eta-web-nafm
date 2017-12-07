@@ -1,4 +1,5 @@
 {
+  "name": "Dragon",
   "char": "Y",
   "color": ["red", "green", "blue", "dimgrey"],
   "stats": {

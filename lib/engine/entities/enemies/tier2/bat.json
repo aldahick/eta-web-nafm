@@ -1,4 +1,5 @@
 {
+  "name": "Bat",
   "char": "^",
   "color": "grey",
   "stats": {
