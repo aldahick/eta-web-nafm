@@ -30,8 +30,8 @@ export default class Enemy extends Entity {
 
     public update(): void {
         if (!this.isTracking) {
-            const min = this.position.sub(3);
-            const max = this.position.add(3);
+            const min = this.position.sub(5);
+            const max = this.position.add(5);
             const targets = this.level.entities.filter(e => e instanceof Player && e.position.getLinearDistance(this.position) < 4);
             if (targets.length === 0) return;
             this.target = targets.sort((a, b) => this.position.getLinearDistance(a.position) - this.position.getLinearDistance(b.position))[0];

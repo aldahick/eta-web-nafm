@@ -39,7 +39,7 @@ export default class Client {
             this.socket.handshake.session.nafmServerUID = this.server.uid;
             await eta.session.save(this.socket.handshake.session);
             this.socket.on("name", (name: string) => {
-                this.player.name = name;
+                this.player.name = name || "Unknown Player";
                 this.server.sendChat("System", `${this.player.coloredName} ${this.hasReset ? "respawned" : "joined"}.`, "white");
                 this.server.sendRender();
             });
@@ -89,6 +89,7 @@ export default class Client {
     private onMove(direction: engine.Direction): void {
         if (!this.player.move(direction)) return;
         this.server.sendRender();
+        if (this.player === undefined) return;
         this.server.sendChat("System", `${this.player.coloredName} moved ${engine.Direction[direction].toLowerCase()}.`, "white", true);
     }
 }
