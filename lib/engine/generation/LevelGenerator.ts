@@ -47,40 +47,40 @@ export default class LevelGenerator {
                 if(enemySeed >= .4){
                     enemies.push(this.generateNewEnemy(
                         this.tier1Enemies,
-                        this.childRooms[i].position.x + 1,
-                        this.childRooms[i].position.y + 1,
+                        this.childRooms[i].position.x,
+                        this.childRooms[i].position.y,
                         this.childRooms[i].position.x + this.childRooms[i].size.x,
                         this.childRooms[i].position.y + this.childRooms[i].size.y,
                     ));
                 } else if(enemySeed >= .22  && enemySeed < .4){
                     enemies.push(this.generateNewEnemy(
                         this.tier2Enemies,
-                        this.childRooms[i].position.x + 1,
-                        this.childRooms[i].position.y + 1,
+                        this.childRooms[i].position.x,
+                        this.childRooms[i].position.y,
                         this.childRooms[i].position.x + this.childRooms[i].size.x,
                         this.childRooms[i].position.y + this.childRooms[i].size.y,
                     ));
                 } else if(enemySeed >= .1 && enemySeed < .22){
                     enemies.push(this.generateNewEnemy(
                         this.tier3Enemies,
-                        this.childRooms[i].position.x + 1,
-                        this.childRooms[i].position.y + 1,
+                        this.childRooms[i].position.x,
+                        this.childRooms[i].position.y,
                         this.childRooms[i].position.x + this.childRooms[i].size.x,
                         this.childRooms[i].position.y + this.childRooms[i].size.y,
                     ));
                 } else if(enemySeed >= .04 && enemySeed < .1) {
                     enemies.push(this.generateNewEnemy(
                         this.tier4Enemies,
-                        this.childRooms[i].position.x + 1,
-                        this.childRooms[i].position.y + 1,
+                        this.childRooms[i].position.x,
+                        this.childRooms[i].position.y ,
                         this.childRooms[i].position.x + this.childRooms[i].size.x,
                         this.childRooms[i].position.y + this.childRooms[i].size.y,
                     ));
                 } else if(enemySeed >= 0 && enemySeed < .4) {
                     enemies.push(this.generateNewEnemy(
                         this.tier5Enemies,
-                        this.childRooms[i].position.x + 1,
-                        this.childRooms[i].position.y + 1,
+                        this.childRooms[i].position.x,
+                        this.childRooms[i].position.y,
                         this.childRooms[i].position.x + this.childRooms[i].size.x,
                         this.childRooms[i].position.y + this.childRooms[i].size.y,
                     ));
@@ -89,6 +89,7 @@ export default class LevelGenerator {
         }
 
         let bossSeed: number = Math.random();
+
         if(bossSeed > .15) {
             enemies.push(this.generateNewEnemy(this.bosses, this.map.size.x - 2, this.map.size.y - 2, this.map.size.x - 2, this.map.size.y - 2));
         } else {
@@ -99,8 +100,8 @@ export default class LevelGenerator {
 
     public generateNewEnemy(tier: string[], startX: number, startY: number, endX: number, endY: number): Enemy {
         let enemy: string = tier[Math.floor(Math.random()*tier.length)];
-        let randomX: number = eta._.random(startX, endX);
-        let randomY: number = eta._.random(startY, endY);
+        let randomX: number = eta._.random(startX + 2, endX) - 1;
+        let randomY: number = eta._.random(startY+ 2 , endY) - 1;
         return Enemy.create(enemy, {position: new Vector2(randomX, randomY)});
     }
 
