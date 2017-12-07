@@ -10,7 +10,6 @@ export default class Player extends Entity {
     public playerId = ++Player.lastPlayerId;
     public char = "@";
     public flags: {[key: string]: any} = {};
-    public name: string;
     private _stats: EntityStats;
     public set stats(stats: EntityStats) {
         this._stats = stats;
@@ -26,10 +25,6 @@ export default class Player extends Entity {
     }
     public get xpLevel(): number {
         return Math.floor(this._stats.xp / 30);
-    }
-
-    public get coloredName(): string {
-        return `<span style="color: ${this.color};">${this.name}</span>`;
     }
 
     public constructor(init: Partial<Entity>) {

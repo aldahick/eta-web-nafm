@@ -22,9 +22,9 @@ export default class Enemy extends Entity {
     public constructor(init: Partial<Entity>) {
         super(init);
         Object.assign(this, init);
-        this.on("combat", (player: Player) => {
+        this.on("combat-defend", (player: Player) => {
             this.target = player;
-            this.update();
+            this.attack(this.target);
         });
     }
 

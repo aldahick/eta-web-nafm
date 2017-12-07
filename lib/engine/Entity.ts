@@ -12,12 +12,17 @@ export default class Entity extends events.EventEmitter {
     public position: Vector2;
     public char: string;
     public color = "white";
+    public name: string;
     public stats: {
         health: number;
         armor: number;
         attack: number;
         xp: number;
     };
+
+    public get coloredName(): string {
+        return `<span style="color: ${this.color};">${this.name}</span>`;
+    }
 
     public constructor(init: Partial<Entity>) {
         super();
@@ -38,7 +43,6 @@ export default class Entity extends events.EventEmitter {
                 return;
             }
         }
-        target.emit("combat", this);
     }
 
     public kill(killer: Entity): void {

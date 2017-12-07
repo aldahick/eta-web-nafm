@@ -18,7 +18,9 @@ export default class Client {
         this.socket.on("chat", this.onChat.bind(this));
         this.socket.on("disconnect", this.onDisconnect.bind(this));
         this.socket.on("move", this.onMove.bind(this));
-        this.server.chatMessages.forEach(msg => this.socket.emit("chat", msg));
+        if (!this.hasReset) {
+            this.server.chatMessages.forEach(msg => this.socket.emit("chat", msg));
+        }
         this.player = this.server.game.addPlayer();
         if (this.color) this.player.color = this.color;
         else this.color = this.player.color;
@@ -33,7 +35,7 @@ export default class Client {
         this.player.on("combat-attack", (e1, e2) => this.onCombat(e1, e2));
         this.player.on("combat-defend", (e1, e2) => this.onCombat(e2, e1));
         this.player.on("killed", (killer: engine.Entity) => {
-            this.server.sendChat("System", `${(killer instanceof engine.Player) ? killer.coloredName : killer.char} killed ${this.player.coloredName}.`, "white");
+            this.server.sendChat("System", `${killer.coloredName} killed ${this.player.coloredName}.`, "white");
             this.reset().catch(err => eta.logger.error(err));
         });
         this.socket.emit("ready", { id: this.player.id });
@@ -70,9 +72,7 @@ export default class Client {
     }
 
     private onCombat(attacker: engine.Entity, defender: engine.Entity) {
-        const attackerName = (attacker instanceof engine.Player) ? attacker.coloredName : attacker.char;
-        const defenderName = (defender instanceof engine.Player) ? defender.coloredName : defender.char;
-        this.server.sendChat("System", `${attackerName} hit ${defenderName} for ${attacker.stats.attack}. (${defender.stats.health} HP left)`, "white");
+        this.server.sendChat("System", `${attacker.coloredName} hit ${defender.coloredName} for ${attacker.stats.attack}. (${defender.stats.health} HP left)`, "white");
     }
 
     private onMove(direction: engine.Direction): void {
