@@ -15,13 +15,13 @@ interface Tree {
 export default class LevelGenerator {
     public walls: Wall[] = [];
     public childRooms: Room[] = [];
-    private tier1Enemies: String[] = ["rat", "spider"];
-    private tier2Enemies: String[] = ["bat", "snake"];
-    private tier3Enemies: String[] = ["boar", "wolf"];
-    private tier4Enemies: String[] = ["ghost", "goblin"];
-    private tier5Enemies: String[] = ["orc", "skeleton", "zombie"];
-    private bosses: String[] = ["giant", "grimreaper", "mindflayer", "rabbit"];
-    private raidBosses: String[] = ["demon", "dragon", "elder", "elemental"];
+    private tier1Enemies: string[] = ["rat", "spider"];
+    private tier2Enemies: string[] = ["bat", "snake"];
+    private tier3Enemies: string[] = ["boar", "wolf"];
+    private tier4Enemies: string[] = ["ghost", "goblin"];
+    private tier5Enemies: string[] = ["orc", "skeleton", "zombie"];
+    private bosses: string[] = ["giant", "grimreaper", "mindflayer", "rabbit"];
+    private raidBosses: string[] = ["demon", "dragon", "elder", "elemental"];
 
     public generateRooms(size: Vector2, iterations: number): Wall[] {
         const map: Room = {
@@ -35,6 +35,65 @@ export default class LevelGenerator {
         this.fixDoors(tree);
         this.findChildren(tree);
         return this.walls;
+    }
+
+    public generateEnemies(): Enemy[] {
+        let enemies: Enemy[] = [];
+        for(let i: number = 0; i < this.childRooms.length; i++){
+            let seed: number = eta._.random(0, 4);
+            for(let j: number = 0; j < seed; j++){
+                let enemySeed: number = Math.random();
+                if(enemySeed >= .4){
+                    enemies.push(this.generateNewEnemy(
+                        this.tier1Enemies,
+                        this.childRooms[i].position.x + 1,
+                        this.childRooms[i].position.y + 1,
+                        this.childRooms[i].position.x + this.childRooms[i].size.x,
+                        this.childRooms[i].position.y + this.childRooms[i].size.y,
+                    ));
+                } else if(enemySeed >= .22  && enemySeed < .4){
+                    enemies.push(this.generateNewEnemy(
+                        this.tier2Enemies,
+                        this.childRooms[i].position.x + 1,
+                        this.childRooms[i].position.y + 1,
+                        this.childRooms[i].position.x + this.childRooms[i].size.x,
+                        this.childRooms[i].position.y + this.childRooms[i].size.y,
+                    ));
+                } else if(enemySeed >= .1 && enemySeed < .22){
+                    enemies.push(this.generateNewEnemy(
+                        this.tier3Enemies,
+                        this.childRooms[i].position.x + 1,
+                        this.childRooms[i].position.y + 1,
+                        this.childRooms[i].position.x + this.childRooms[i].size.x,
+                        this.childRooms[i].position.y + this.childRooms[i].size.y,
+                    ));
+                } else if(enemySeed >= .04 && enemySeed < .1) {
+                    enemies.push(this.generateNewEnemy(
+                        this.tier4Enemies,
+                        this.childRooms[i].position.x + 1,
+                        this.childRooms[i].position.y + 1,
+                        this.childRooms[i].position.x + this.childRooms[i].size.x,
+                        this.childRooms[i].position.y + this.childRooms[i].size.y,
+                    ));
+                } else if(enemySeed >= 0 && enemySeed < .4) {
+                    enemies.push(this.generateNewEnemy(
+                        this.tier5Enemies,
+                        this.childRooms[i].position.x + 1,
+                        this.childRooms[i].position.y + 1,
+                        this.childRooms[i].position.x + this.childRooms[i].size.x,
+                        this.childRooms[i].position.y + this.childRooms[i].size.y,
+                    ));
+                }
+            }
+        }
+        return enemies;
+    }
+
+    public generateNewEnemy(tier: string[], startX: number, startY: number, endX: number, endY: number): Enemy {
+        let enemy: string = tier[Math.floor(Math.random()*tier.length)];
+        let randomX: number = eta._.random(startX, endX);
+        let randomY: number = eta._.random(startY, endY);
+        return Enemy.create(enemy, {position: new Vector2(randomX, randomY)});
     }
 
     private findChildren(tree: Tree): void {

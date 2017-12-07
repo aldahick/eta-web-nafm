@@ -49,7 +49,8 @@ export class Server {
                 });
             }
         });
-        generator.generateEnemies();
+        generator.generateEnemies()
+            .forEach(enemy => this.game.level.addEntity(enemy));
     }
 
     public sendRender(): void {
