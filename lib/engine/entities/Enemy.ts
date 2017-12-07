@@ -50,37 +50,7 @@ export default class Enemy extends Entity {
     }
 
     public findPathToTarget(): Vector2[] {
-        const queue: Node[] = [{
-            position: this.position,
-            parent: undefined,
-            hasVisited: false
-        }];
-        const searched: string[] = [];
-        while (queue.length > 0) {
-            const item = queue.splice(0, 1)[0];
-            item.hasVisited = true;
-            const neighbors: Node[] = item.position.getAdjacentCardinalPoints().map(neighborPosition => {
-                if (this.level.entities.find(e => e.position.equals(neighborPosition) && !(e instanceof Player)) !== undefined) return undefined;
-                return {
-                    parent: item,
-                    position: neighborPosition,
-                    hasVisited: false
-                };
-            }).filter(i => i !== undefined);
-            for (const neighbor of neighbors) {
-                if (neighbor.position.equals(this.target.position)) {
-                    const path: Vector2[] = [];
-                    let iteratee: Node = neighbor;
-                    while (iteratee.parent !== undefined) {
-                        path.push(iteratee.position);
-                        iteratee = iteratee.parent;
-                    }
-                    return path.reverse();
-                }
-                queue.push(neighbor);
-            }
-        }
-        return undefined;
+        return [this.target.position];
     }
 
     public static create(name: string, _init: Partial<Entity>): Enemy {
