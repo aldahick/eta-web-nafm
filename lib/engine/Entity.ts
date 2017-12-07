@@ -30,13 +30,12 @@ export default class Entity extends events.EventEmitter {
             return;
         }
         if (eta._.random(0, 20) > target.stats.armor) {
-            target.stats.health -= this.stats.attack;
+            ((<any>target)._stats || target.stats).health -= this.stats.attack;
             this.emit("combat-attack", target, this);
             target.emit("combat-defend", this, target);
             if (target.stats.health <= 0) {
                 target.kill(this);
-                if ((<any>this)._stats) (<any>this)._stats.xp += target.stats.xp;
-                else this.stats.xp += target.stats.xp;
+                ((<any>this)._stats || this.stats).xp += target.stats.xp;
                 return;
             }
         }
