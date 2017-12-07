@@ -2,7 +2,10 @@ import * as eta from "../../../eta";
 import Room from "./Room";
 import Vector2 from "../Vector2";
 import Wall from "../entities/Wall";
-
+import Enemy from "../entities/Enemy";
+import PotionOfHealth from "../entities/consumables/PotionOfHealth";
+import PotionOfMight from "../entities/consumables/PotionOfMight";
+import PotionOfDefence from "../entities/consumables/PotionOfDefence";
 interface Tree {
     leaf: Room;
     right: Tree;
@@ -11,6 +14,15 @@ interface Tree {
 
 export default class LevelGenerator {
     public walls: Wall[] = [];
+    public childRooms: Room[] = [];
+    private tier1Enemies: String[] = ["rat", "spider"];
+    private tier2Enemies: String[] = ["bat", "snake"];
+    private tier3Enemies: String[] = ["boar", "wolf"];
+    private tier4Enemies: String[] = ["ghost", "goblin"];
+    private tier5Enemies: String[] = ["orc", "skeleton", "zombie"];
+    private bosses: String[] = ["giant", "grimreaper", "mindflayer", "rabbit"];
+    private raidBosses: String[] = ["demon", "dragon", "elder", "elemental"];
+
     public generateRooms(size: Vector2, iterations: number): Wall[] {
         const map: Room = {
             position: new Vector2(0, 0),
@@ -21,7 +33,14 @@ export default class LevelGenerator {
         this.generateEntities(tree);
         this.addBoundaries(map);
         this.fixDoors(tree);
+        this.findChildren(tree);
         return this.walls;
+    }
+
+    private findChildren(tree: Tree): void {
+        if(tree.left) this.findChildren(tree.left);
+        if(tree.right) this.findChildren(tree.right);
+        if(!tree.left && !tree.right) this.childRooms.push(tree.leaf);
     }
 
     private fixDoors(tree: Tree): void {

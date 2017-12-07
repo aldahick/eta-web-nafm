@@ -49,6 +49,7 @@ export class Server {
                 });
             }
         });
+        generator.generateEnemies();
     }
 
     public sendRender(): void {

@@ -4,6 +4,7 @@ import Player from "./entities/Player";
 import Vector2 from "./Vector2";
 import * as _ from "lodash";
 import * as eta from "../../eta";
+import Enemy from "./entities/Enemy";
 
 export default class Level extends events.EventEmitter {
     public size: Vector2 = new Vector2(100, 50);
