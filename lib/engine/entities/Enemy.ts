@@ -6,7 +6,7 @@ import Player from "./Player";
 import Vector2 from "../Vector2";
 
 export default class Enemy extends Entity {
-    private static definitions: {[key: string]: Partial<Enemy>} = {};
+    public static definitions: {[key: string]: Partial<Enemy>} = {};
     public char = "$";
     public color = "red";
     public get isTracking(): boolean { return this.target !== undefined; }

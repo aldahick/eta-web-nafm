@@ -72,6 +72,14 @@ export default class Client {
     }
 
     private onChat(message: string): void {
+        if (message.startsWith("/which ")) {
+            const char = message.split(" ")[1];
+            const name = Object.keys(engine.Enemy.definitions)
+                .find(k => engine.Enemy.definitions[k].char === char);
+            const response = name === undefined ? `I'm not sure what the "${char}" represents.` : `The "${char}" represents a ${name}.`;
+            this.sendChat("System", response, "white");
+            return;
+        }
         this.server.sendChat(this.player.name, eta._.escape(message), this.player.color);
     }
 
