@@ -15,6 +15,7 @@ interface Tree {
 export default class LevelGenerator {
     public walls: Wall[] = [];
     public childRooms: Room[] = [];
+    public map: Room;
     private tier1Enemies: string[] = ["rat", "spider"];
     private tier2Enemies: string[] = ["bat", "snake"];
     private tier3Enemies: string[] = ["boar", "wolf"];
@@ -24,14 +25,14 @@ export default class LevelGenerator {
     private raidBosses: string[] = ["demon", "dragon", "elder", "elemental"];
 
     public generateRooms(size: Vector2, iterations: number): Wall[] {
-        const map: Room = {
+        this.map = {
             position: new Vector2(0, 0),
             size: size.clone(),
             door: undefined
         };
-        const tree: Tree = this.buildTree(map, iterations);
+        const tree: Tree = this.buildTree(this.map, iterations);
         this.generateEntities(tree);
-        this.addBoundaries(map);
+        this.addBoundaries(this.map);
         this.fixDoors(tree);
         this.findChildren(tree);
         return this.walls;
@@ -85,6 +86,13 @@ export default class LevelGenerator {
                     ));
                 }
             }
+        }
+
+        let bossSeed: number = Math.random();
+        if(bossSeed > .15) {
+            enemies.push(this.generateNewEnemy(this.bosses, this.map.size.x - 2, this.map.size.y - 2, this.map.size.x - 2, this.map.size.y - 2));
+        } else {
+            enemies.push(this.generateNewEnemy(this.raidBosses, this.map.size.x - 2, this.map.size.y - 2, this.map.size.x - 2, this.map.size.y - 2))
         }
         return enemies;
     }
