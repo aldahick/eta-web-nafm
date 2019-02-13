@@ -1,0 +1,37 @@
+{
+  "name": "nafm-web",
+  "version": "0.1.0",
+  "author": "Alex Hicks <alex@alexhicks.net> (https://alexhicks.net)",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "dependencies": {
+    "react": "^16.8.1",
+    "react-bootstrap": "^1.0.0-beta.5",
+    "react-dom": "^16.8.1",
+    "socket.io-client": "^2.2.0"
+  },
+  "devDependencies": {
+    "@aldahick/tslint-rules": "0.0.2",
+    "@types/node": "^11.9.3",
+    "@types/react": "^16.8.2",
+    "@types/react-bootstrap": "^0.32.16",
+    "@types/react-dom": "^16.8.0",
+    "@types/socket.io-client": "^1.4.32",
+    "react-scripts": "^2.1.5",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "extends": [
+    "@aldahick/tslint-rules/tslint.react.json"
+  ]
+}

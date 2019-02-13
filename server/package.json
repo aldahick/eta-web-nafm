@@ -1,0 +1,41 @@
+{
+  "name": "nafm-server",
+  "version": "0.1.0",
+  "description": "NAFM server",
+  "author": "Alex Hicks <alex@alexhicks.net> (https://alexhicks.net)",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "start": "ts-node src/main.ts",
+    "start:dev": "nodemon",
+    "prestart:prod": "rimraf dist && npm run build",
+    "start:prod": "node dist/main.js",
+    "lint": "tslint -p tsconfig.json -c tslint.json"
+  },
+  "dependencies": {
+    "@nestjs/common": "^5.4.0",
+    "@nestjs/core": "^5.4.0",
+    "@nestjs/websockets": "^5.7.2",
+    "reflect-metadata": "^0.1.12",
+    "rimraf": "^2.6.2",
+    "rxjs": "^6.2.2",
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "@aldahick/tslint-rules": "0.0.2",
+    "@nestjs/testing": "^5.1.0",
+    "@types/express": "^4.16.0",
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.7.1",
+    "@types/socket.io": "^2.1.2",
+    "@types/supertest": "^2.0.5",
+    "jest": "^23.5.0",
+    "nodemon": "^1.18.3",
+    "prettier": "^1.14.2",
+    "supertest": "^3.1.0",
+    "ts-jest": "^23.1.3",
+    "ts-loader": "^4.4.2",
+    "ts-node": "^7.0.1",
+    "tslint": "5.11.0"
+  }
+}
